@@ -1,4 +1,4 @@
-È«¾Ö±äÁ¿
+å…¨å±€å˜é‡
 #define FILE 0
 #define EDIT 1
 #define OPERATE 2
@@ -8,57 +8,57 @@
 #define INPUT 1
 
 
-ÎÄ¼şÖ¸ÕëFile MiniEditor
+æ–‡ä»¶æŒ‡é’ˆFile MiniEditor
 
-ÎÄ¼ş×´Ì¬ÖµFile_Status  //ÔÚ{FILE£¬EDIT£¬OPERATE}ÖĞ±ä»¯
-ÊäÈë×´Ì¬ÖµInput_Status//ÔÚ{REPLACE, INPUT}ÖĞ±ä»¯
+æ–‡ä»¶çŠ¶æ€å€¼File_Status  //åœ¨{FILEï¼ŒEDITï¼ŒOPERATE}ä¸­å˜åŒ–
+è¾“å…¥çŠ¶æ€å€¼Input_Status//åœ¨{REPLACE, INPUT}ä¸­å˜åŒ–
 
-struct Pos{ int x£¬ int y};
-Pos File_Pos//Ä¿Ç°¹â±êÔÚÎÄ¼şÖĞµÄÎ»ÖÃ X£¬Y
+struct Pos{ int xï¼Œ int y};
+Pos File_Pos//ç›®å‰å…‰æ ‡åœ¨æ–‡ä»¶ä¸­çš„ä½ç½® Xï¼ŒY
 
 struct Screem{
-Pos Cursor_Pos   //Ä¿Ç°¹â±êÔÚÆÁÄ»ÉÏµÄÎ»ÖÃX£¬Y
-Pos File_Pos      //ÎÄ¼şÇøÎ»ÖÃ
-Pos Edit_Pos      //±à¼­ÇøÎ»ÖÃ
-Pos Operate_Pos  //²Ù×÷ÇøÎ»ÖÃ
-Pos Inform_Pos   //Í¨ÖªÇøÎ»ÖÃ
+Pos Cursor_Pos   //ç›®å‰å…‰æ ‡åœ¨å±å¹•ä¸Šçš„ä½ç½®Xï¼ŒY
+Pos File_Pos      //æ–‡ä»¶åŒºä½ç½®
+Pos Edit_Pos      //ç¼–è¾‘åŒºä½ç½®
+Pos Operate_Pos  //æ“ä½œåŒºä½ç½®
+Pos Inform_Pos   //é€šçŸ¥åŒºä½ç½®
 }
-String Buff_Inform//Í¨Öª¼Ä´æÆ÷
+String Buff_Inform//é€šçŸ¥å¯„å­˜å™¨
 
 
-×´Ì¬FILE ÏÂÏ½µÄĞĞÎªº¯Êı
-Open			//´ò¿ªÎÄ¼ş
-Close			//¹Ø±ÕÎÄ¼ş
-Rename			//ÖØÃüÃû
-Save_As			//Áí´æÎª
-Save				//±£´æ
-Enter_Edit		//½øÈë±à¼­Ä£Ê½
-Help			//ÃüÁî²Ù×÷°ïÖú
-ERROR			//´íÎóÊäÈë´¦Àí
-Quit				//ÍÆ³ö³ÌĞò
+çŠ¶æ€FILE ä¸‹è¾–çš„è¡Œä¸ºå‡½æ•°
+Open			//æ‰“å¼€æ–‡ä»¶
+Close			//å…³é—­æ–‡ä»¶
+Rename			//é‡å‘½å
+Save_As			//å¦å­˜ä¸º
+Save				//ä¿å­˜
+Enter_Edit		//è¿›å…¥ç¼–è¾‘æ¨¡å¼
+Help			//å‘½ä»¤æ“ä½œå¸®åŠ©
+ERROR			//é”™è¯¯è¾“å…¥å¤„ç†
+Quit				//æ¨å‡ºç¨‹åº
 
-×´Ì¬OPERATEÏÂÏ½µÄĞĞÎªº¯Êı
-Find				//Ñ°ÕÒ¶ÔÓ¦×Ö·û´®
-Replace			//Ìæ»»×Ö·û´®
-Exit_Operate		//ÍË³ö²Ù×÷ĞĞÎª
+çŠ¶æ€OPERATEä¸‹è¾–çš„è¡Œä¸ºå‡½æ•°
+Find				//å¯»æ‰¾å¯¹åº”å­—ç¬¦ä¸²
+Replace			//æ›¿æ¢å­—ç¬¦ä¸²
+Exit_Operate		//é€€å‡ºæ“ä½œè¡Œä¸º
 
-×´Ì¬EditÏÂÏ½µÄĞĞÎªº¯Êı
-Input			//ÅĞ¶ÏÊäÈëº¯Êı£¬ÏÂÏ½ÆäËûº¯Êı
-Cursor_Move		//¹â±êÒÆ¶¯º¯Êı
-Char_Write		//×Ö·ûÊäÈëº¯Êı
-Chi_Write		//ÖĞÎÄÊäÈëº¯Êı
-Line_New		//ĞĞ´´½¨º¯Êı
-Line_Delete		//ĞĞÉ¾³ıº¯Êı
-Char_Backspace	//ÏòÇ°×Ö·ûÉ¾³ıº¯Êı
-Chi_Backspace	//ÏòÇ°ÖĞÎÄÉ¾³ıº¯Êı
-Char_Delete		//Ïòºó×Ö·ûÉ¾³ıº¯Êı
-Chi_Delete		//ÏòºóÖĞÎÄÉ¾³ıº¯Êı
-Enter_Operate	//½øÈë²Ù×÷×´Ì¬
-Exit_Edit			//ÍÆ³ö±à¼­×´Ì¬£¨·µ»ØÎÄ¼ş²Ù×÷×´Ì¬£©
+çŠ¶æ€Editä¸‹è¾–çš„è¡Œä¸ºå‡½æ•°
+Input			//åˆ¤æ–­è¾“å…¥å‡½æ•°ï¼Œä¸‹è¾–å…¶ä»–å‡½æ•°
+Cursor_Move		//å…‰æ ‡ç§»åŠ¨å‡½æ•°
+Char_Write		//å­—ç¬¦è¾“å…¥å‡½æ•°
+Chi_Write		//ä¸­æ–‡è¾“å…¥å‡½æ•°
+Line_New		//è¡Œåˆ›å»ºå‡½æ•°
+Line_Delete		//è¡Œåˆ é™¤å‡½æ•°
+Char_Backspace	//å‘å‰å­—ç¬¦åˆ é™¤å‡½æ•°
+Chi_Backspace	//å‘å‰ä¸­æ–‡åˆ é™¤å‡½æ•°
+Char_Delete		//å‘åå­—ç¬¦åˆ é™¤å‡½æ•°
+Chi_Delete		//å‘åä¸­æ–‡åˆ é™¤å‡½æ•°
+Enter_Operate	//è¿›å…¥æ“ä½œçŠ¶æ€
+Exit_Edit			//æ¨å‡ºç¼–è¾‘çŠ¶æ€ï¼ˆè¿”å›æ–‡ä»¶æ“ä½œçŠ¶æ€ï¼‰
 
 
-È«¾ÖĞĞÎªº¯Êı
-Set_Cursor		//½«¹â±êÖÃÓÚÔ¤ÉèÎ»ÖÃ{FILE, OPERATE, EDIT, INFORM}
-Get_Screem		//»ñµÃÆÁÄ»µÄ³¤¿í
-Initial			//³õÊ¼»¯º¯Êı
-Update_Screem	//ÆÁÄ»¸üĞÂº¯Êı
+å…¨å±€è¡Œä¸ºå‡½æ•°
+Set_Cursor		//å°†å…‰æ ‡ç½®äºé¢„è®¾ä½ç½®{FILE, OPERATE, EDIT, INFORM}
+Get_Screem		//è·å¾—å±å¹•çš„é•¿å®½
+Initial			//åˆå§‹åŒ–å‡½æ•°
+Update_Screem	//å±å¹•æ›´æ–°å‡½æ•°
