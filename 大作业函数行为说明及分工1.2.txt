@@ -1,0 +1,64 @@
+全局变量
+#define FILE 0
+#define EDIT 1
+#define OPERATE 2
+#define INFORM 3
+
+#define REPLACE 0
+#define INPUT 1
+
+
+文件指针File MiniEditor
+
+文件状态值File_Status  //在{FILE，EDIT，OPERATE}中变化
+输入状态值Input_Status//在{REPLACE, INPUT}中变化
+
+struct Pos{ int x， int y};
+Pos File_Pos//目前光标在文件中的位置 X，Y
+
+struct Screem{
+Pos Cursor_Pos   //目前光标在屏幕上的位置X，Y
+Pos File_Pos      //文件区位置
+Pos Edit_Pos      //编辑区位置
+Pos Operate_Pos  //操作区位置
+Pos Inform_Pos   //通知区位置
+}
+String Buff_Inform//通知寄存器
+
+
+状态FILE 下辖的行为函数
+Open			//打开文件
+Close			//关闭文件
+Rename			//重命名
+Save_As			//另存为
+Save				//保存
+Enter_Edit		//进入编辑模式
+Help			//命令操作帮助
+ERROR			//错误输入处理
+Quit				//推出程序
+
+状态OPERATE下辖的行为函数
+Find				//寻找对应字符串
+Replace			//替换字符串
+Exit_Operate		//退出操作行为
+
+状态Edit下辖的行为函数
+Input			//判断输入函数，下辖其他函数
+Cursor_Move		//光标移动函数
+Char_Write		//字符输入函数
+Chi_Write		//中文输入函数
+Line_New		//行创建函数
+Line_Delete		//行删除函数
+Char_Backspace	//向前字符删除函数
+Chi_Backspace	//向前中文删除函数
+Char_Delete		//向后字符删除函数
+Chi_Delete		//向后中文删除函数
+Enter_Operate	//进入操作状态
+Exit_Edit			//推出编辑状态（返回文件操作状态）
+
+
+全局行为函数
+Set_Cursor		//将光标置于预设位置{FILE, OPERATE, EDIT, INFORM}
+Get_Screem		//获得屏幕的长宽
+Initial			//初始化函数
+Update_Screem	//屏幕更新函数
