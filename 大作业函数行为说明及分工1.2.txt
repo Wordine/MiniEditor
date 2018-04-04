@@ -1,4 +1,4 @@
-全局变量
+﻿全局变量
 #define FILE 0
 #define EDIT 1
 #define OPERATE 2
@@ -27,20 +27,20 @@ String Buff_Inform//通知寄存器
 
 
 状态FILE 下辖的行为函数
-Open			//打开文件
-Close			//关闭文件
-Rename			//重命名
-Save_As			//另存为
-Save				//保存
-Enter_Edit		//进入编辑模式
-Help			//命令操作帮助
-ERROR			//错误输入处理
-Quit				//推出程序
+Open			//打开文件 M
+Close			//关闭文件 M
+Rename			//重命名 M
+Save_As			//另存为 M
+Save				//保存 M
+Enter_Edit		//进入编辑模式 R
+Help			//命令操作帮助 R
+ERROR			//错误输入处理 R
+Quit				//推出程序 R
 
 状态OPERATE下辖的行为函数
-Find				//寻找对应字符串
-Replace			//替换字符串
-Exit_Operate		//退出操作行为
+Find				//寻找对应字符串 R
+Replace			//替换字符串 R
+Exit_Operate		//退出操作行为 R
 
 状态Edit下辖的行为函数
 Input			//判断输入函数，下辖其他函数
@@ -59,6 +59,6 @@ Exit_Edit			//推出编辑状态（返回文件操作状态）
 
 全局行为函数
 Set_Cursor		//将光标置于预设位置{FILE, OPERATE, EDIT, INFORM}
-Get_Screem		//获得屏幕的长宽
-Initial			//初始化函数
-Update_Screem	//屏幕更新函数
+Get_Screem		//获得屏幕的长宽 R
+Initial			//初始化函数 R
+Update_Screem	//屏幕更新函数 R
