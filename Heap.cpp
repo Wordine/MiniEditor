@@ -1,4 +1,4 @@
-class Heap_Linked_List//½«¹æ¸ñÎª100×Ö·ûµÄ¶ÑÒÔÁ´±í·½Ê½Á¬½Ó
+class Heap_Linked_List//å°†è§„æ ¼ä¸º100å­—ç¬¦çš„å †ä»¥é“¾è¡¨æ–¹å¼è¿æ¥
 {
 public:
 	Heap_Linked_List();
@@ -6,7 +6,7 @@ public:
 	~Heap_Linked_List();
 private:
 	char* heap;
-	int length;//´Ë¶ÑÖĞÒÑ´æ×Ö·û³¤¶È
+	int length;//æ­¤å †ä¸­å·²å­˜å­—ç¬¦é•¿åº¦
 	Heap_Linked_List* next;
 };
 
