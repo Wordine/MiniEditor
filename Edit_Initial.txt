@@ -1,0 +1,13 @@
+﻿Edit_Initial
+Wording
+Edit_Initial
+//使用外部类COORD  HANDLE//
+//外部函数SetConsolePosition GetStdHandle CloseHandle//
+
+被Open_File调用,每次打开文件的时候调用
+
+读取修改全局变量 File_Pos Update_Pos
+
+初始化光标在文件中位置
+初始化更新位置
+

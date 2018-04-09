@@ -1,0 +1,29 @@
+﻿Write
+Wording
+Write
+
+被
+Input_Edit调用
+传入增添的字符或汉字
+调用
+Update_Screem		//屏幕更新函数
+Cursor_Move		//光标移动函数
+
+读取修改
+Pos File_Pos		//目前光标在文件中的位置 X，Y
+
+字符
+判断是否为合法字符
+File_Pos之后的一行字符全部后移一位
+（如果空间不够申请新空间
+插入字符
+Cursor_Move RIGHT
+Undate_Scream EDIT
+
+汉字
+File_Pos之后的一行字符全部后移两位
+（如果空间不够申请新空间
+插入汉字
+Cursor_Move RIGHT
+Cursor_Move RIGHT
+Undate_Scream EDIT

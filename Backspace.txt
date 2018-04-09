@@ -1,0 +1,27 @@
+﻿Backspace
+Wording
+Backspace
+
+被
+Edit_Input调用
+
+调用
+Cursor_Move		//光标移动函数
+
+读取
+Pos File_Pos		//目前光标在文件中的位置 X，Y
+
+
+Pos File_Pos之前的字符
+是否是文件开头
+
+检查是否为汉字
+不是汉字 后面字符前移一位 
+Cursor_Move LEFT
+
+是汉字   后面字符前移两位
+Cursor_Move LEFT
+Cursor_Move LEFT
+
+检查是否有空堆
+释放空堆

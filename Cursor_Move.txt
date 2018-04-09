@@ -1,0 +1,47 @@
+﻿Cursor_Move
+Wording
+Cursor_Move
+
+//使用外部类COORD  HANDLE
+//外部函数SetConsolePosition GetStdHandle CloseHandle
+
+被
+Write
+Backspace
+调用
+
+读取修改
+Pos Cursor_Pos   	//目前光标在屏幕上的位置X，Y
+Pos File_Pos		//目前光标在文件中的位置 X，Y
+Pos Update_Pos		//更新位置
+
+每次调用函数，检查位置是否非法
+switch
+
+case UP
+是否在编辑区最上一行
+是否在文件的最上一行
+向上移动后是否有字符
+移动
+位置是否非法
+
+case DOWN
+是否在编辑区的最下一行
+是否在文件的最后一行
+向下移动是否有字符
+移动
+位置是否非法
+
+case LEFT
+是否在编辑区的最左一行
+是否在行的开头
+是否在文件的开头
+移动
+位置是否非法
+
+case RIGHT
+是否在编辑区的最右一行
+是否在行的末尾
+是否在文件的末尾
+移动
+位置是否非法

@@ -1,0 +1,57 @@
+﻿name:Input_Edit
+Wording
+Input_Edit
+
+//
+
+被main调用，不传递参数
+调用下辖于Edit的行为函数
+Cursor_Move		//光标移动函数 //传递光标移动的方向
+Char_Write		//字符输入函数
+Chi_Write		//中文输入函数
+Line_New		//行创建函数
+Line_Delete		//行删除函数
+Char_Backspace		//向前字符删除函数
+Chi_Backspace		//向前中文删除函数
+Char_Delete		//向后字符删除函数
+Chi_Delete		//向后中文删除函数
+Enter_Operate		//进入操作状态
+Exit_Edit		//推出编辑状态（返回文件操作状态）操作命令esc
+
+读取并修改全局变量File_Status
+
+
+define UP 0
+define DOWN 1
+define LEFT 2
+define RIGHT 3
+输入判断（每次识别单键盘按键或中文）
+
+方向键
+Cursor_Move(UP~RIGHT)
+
+字符
+Char_Write(char Chr)
+
+中文
+Chi_Write(unsigned char *Chi)
+
+/n
+Line_New
+
+backspace
+Backspace
+
+delete
+Delete
+
+Ctrl + o
+File_Status = OPRATE
+Enter_Operate
+
+esc
+Exit_Edit
+
+default
+通知区显示"WORING EDIT INPUT"
+//每一步操作函数结束后都要清空接受媒介，用于判断接受输入时是否出错

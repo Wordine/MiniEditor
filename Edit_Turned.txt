@@ -1,0 +1,15 @@
+﻿Edit_Turned
+Wording
+Edit_Turned
+//使用外部类COORD  HANDLE
+//外部函数SetConsolePosition GetStdHandle CloseHandle
+
+/*当由File状态或者OPERATE状态跳转到EDIT状态时候使用函数*/
+被Exit_Operate与Enter_Edit函数调用
+
+读取Update_Pos File_Pos Cursor_Pos
+
+首先检查三个Pos是否有效
+如果无效在通知区反馈信息
+
+将光标置于Cursor_Pos位置处。

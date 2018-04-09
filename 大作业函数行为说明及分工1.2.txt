@@ -1,4 +1,4 @@
-全局变量
+﻿全局变量
 #define FILE 0
 #define EDIT 1
 #define OPERATE 2
@@ -14,7 +14,8 @@
 输入状态值Input_Status//在{REPLACE, INPUT}中变化
 
 struct Pos{ int x， int y};
-Pos File_Pos//目前光标在文件中的位置 X，Y
+Pos File_Pos		//目前光标在文件中的位置 X，Y
+Pos Update_Pos		//更新位置
 
 struct Screem{
 Pos Cursor_Pos   //目前光标在屏幕上的位置X，Y
@@ -27,38 +28,34 @@ String Buff_Inform//通知寄存器
 
 
 状态FILE 下辖的行为函数
-Open			//打开文件
-Close			//关闭文件
-Rename			//重命名
-Save_As			//另存为
-Save				//保存
-Enter_Edit		//进入编辑模式
-Help			//命令操作帮助
-ERROR			//错误输入处理
-Quit				//推出程序
+Open			//打开文件 M
+Close			//关闭文件 M
+Rename			//重命名 M
+Save_As			//另存为 M
+Save				//保存 M
+Enter_Edit		//进入编辑模式 R
+Help			//命令操作帮助 R
+ERROR			//错误输入处理 R
+Quit				//推出程序 R
 
 状态OPERATE下辖的行为函数
-Find				//寻找对应字符串
-Replace			//替换字符串
-Exit_Operate		//退出操作行为
+Find				//寻找对应字符串 R
+Replace			//替换字符串 R
+Exit_Operate		//退出操作行为 R
 
 状态Edit下辖的行为函数
-Input			//判断输入函数，下辖其他函数
+Input_Edit		//判断输入函数，下辖其他函数
+Edit_Initial		//编辑区初始化函数
 Cursor_Move		//光标移动函数
-Char_Write		//字符输入函数
-Chi_Write		//中文输入函数
-Line_New		//行创建函数
-Line_Delete		//行删除函数
-Char_Backspace	//向前字符删除函数
-Chi_Backspace	//向前中文删除函数
-Char_Delete		//向后字符删除函数
-Chi_Delete		//向后中文删除函数
-Enter_Operate	//进入操作状态
-Exit_Edit			//推出编辑状态（返回文件操作状态）
+Write			//字符输入函数
+Backspace		//向前字符删除函数
+Delete			//向后字符删除函数
+Enter_Operate		//进入操作状态
+Exit_Edit		//推出编辑状态（返回文件操作状态）操作命令esc
 
 
 全局行为函数
 Set_Cursor		//将光标置于预设位置{FILE, OPERATE, EDIT, INFORM}
-Get_Screem		//获得屏幕的长宽
-Initial			//初始化函数
-Update_Screem	//屏幕更新函数
+Get_Screem		//获得屏幕的长宽 R
+Initial			//初始化函数 R
+Update_Screem	//屏幕更新函数 S
