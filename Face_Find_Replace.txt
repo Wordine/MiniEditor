@@ -1,0 +1,169 @@
+﻿使用的外部库文件
+Windows.h
+tchar.h
+这两个库文件主要用于控制台界面的输出、设计、字符的显示还有读取键盘操作
+
+用到的Windows.h里面的函数有：
+GetStdHandle(STD_OUTPUT_HANDLE);//这里的参数为标准输出的句柄
+SetConsoleTitle(title);		//窗口命名
+ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);//直接将屏幕最大化
+GetConsoleScreenBufferInfo(hOut, &bInfo);//获取窗口缓冲区信息
+SetConsoleTextAttribute(hOut, att);//设置背景和字体颜色
+WriteConsoleOutputCharacter(hOut, chBox[4], (int)_tcslen(chBox[4]), pos, &num_written);//将字符显示到指定坐标位置
+FillConsoleOutputAttribute(hOut, CaiDan_Color, right - left + 1, Show_CaiDan, &num_written);//使指定位置的字符着色
+SetConsoleCursorPosition(hOut, chPos); // 设置光标位置
+ReadConsoleInput(hIn, &keyRec, 1, &res);/读取鼠标键盘输入等信息
+
+WriteConsole(
+	__in HANDLEhConsoleOutput,//句柄
+	__in const VOID *lpBuffer,//字符串
+	__in DWORDnNumberOfCharsToWrite,//字符个数
+	__out LPDWORDlpNumberOfCharsWritten,//已写个数
+	__reserved LPVOIDlpReserved	//保留
+);//在当前光标位置写入一个字符串到屏幕缓冲区
+
+主要的参数类型有：
+typedef struct _COORD {
+	SHORT X;
+	SHORT Y;
+} COORD, *PCOORD(与屏幕位置相关)(定义了控制台屏幕缓冲区中的字符坐标单元。坐标系统的原点（0, 0)位于缓冲区的左上角
+
+typedef struct _SMALL_RECT {
+	SHORT Left;
+	SHORT Top;
+	SHORT Right;
+	SHORT Bottom;
+} SMALL_RECT, *PSMALL_RECT; 定义了由左上角到右下角区域的坐标
+
+typedef struct _CONSOLE_SCREEN_BUFFER_INFO {
+	COORD dwSize;
+	COORD dwCursorPosition;
+	WORD wAttributes;
+	SMALL_RECT srWindow;
+	COORD dwMaximumWindowSize;
+} CONSOLE_SCREEN_BUFFER_INFO;
+dwSize				COORD 类型的结构体， 包含了控制台屏幕缓冲区的尺寸，行和列以字符为单位计数
+dwCursorPosition	COORD 类型的结构体，包含了光标在屏幕缓冲区中的列和行坐标。
+wAttributes			使用 WriteFile 和 WriteConsole 函数写到屏幕缓冲区，或者是使用 ReadFile 和
+ReadConsole			函数回显到屏幕缓冲区的字符属性，更多信息参见字符属性数据结构介绍。
+srWindow			SMALL_RECT 类型的结构体，包含了所显示控制台窗口左上角到右下角的屏幕缓冲区坐标。
+dwMaximumWindowSize        COORD 类型的结构体，包含了控制台窗口的最大尺寸值，行和列以字符为单位计数。提供了屏幕缓冲区大小、
+字体以及屏幕大小（注：指的是控制台窗口屏幕，不是桌面）。
+
+FillConsoleOutputAttribute(
+	HANDLE hOutputHandle,//控制台输出句柄
+	WORD wAttribute,//颜色属性
+	DWORD nLength,//上色的字符串长度
+	COORD dwWriteCoord,//上色坐标
+	LPDWORD lpNumberOfAttrsWritten//DWORD型的指针，输出成功上色的长度
+)
+
+BOOL WriteConsoleOutputCharacter( // 在指定位置处插入指定数量的字符
+	HANDLE hConsoleOutput, // 句柄
+	LPCTSTR lpCharacter, // 字符串
+	DWORD nLength, // 字符个数
+	COORD dwWriteCoord, // 起始位置
+	LPDWORD lpNumberOfCharsWritten // 已写个数
+);
+
+BOOL ReadConsoleInput(
+	HANDLE hConsoleInput, // 输入设备句柄
+	PINPUT_RECORD lpBuffer, // 返回数据记录
+	DWORD nLength, // 要读取的记录数
+	LPDWORD lpNumberOfEventsRead // 返回已读取的记录数
+
+	其中， INPUT_RECORD 定义如下：
+	typedef struct _INPUT_RECORD {
+	WORD EventType; // 事件类型
+	union {
+		KEY_EVENT_RECORD KeyEvent;
+		MOUSE_EVENT_RECORD MouseEvent;
+		WINDOW_BUFFER_SIZE_RECORD WindowBufferSizeEvent;
+		MENU_EVENT_RECORD MenuEvent;
+		FOCUS_EVENT_RECORD FocusEvent;
+	} Event;
+} INPUT_RECORD;
+与键盘事件相关的记录结构 KEY_EVENT_RECORD 定义如下：
+typedef struct _KEY_EVENT_RECORD {
+	BOOL bKeyDown; // TRUE表示键按下， FALSE表示键释放
+	WORD wRepeatCount; // 按键次数
+	WORD wVirtualKeyCode; // 虚拟键代码
+	WORD wVirtualScanCode; // 虚拟键扫描码
+	union {
+		WCHAR UnicodeChar; // 宽字符
+		CHAR AsciiChar; // ASCII字符
+	} uChar; // 字符
+	DWORD dwControlKeyState; // 控制键状态
+} KEY_EVENT_RECORD;
+);
+
+
+读取的全局变量：Set_Cursor
+读取并修改的全局变量：Get_Screen、Initial
+
+//功能：创建刚进入时的原始界面
+void Initial()
+{
+	窗口命名；//SetConsoleTitle(title);	
+	设置屏幕尺寸；//ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);/
+	设置背景色和文字颜色；//SetConsoleTextAttribute(hOut, att
+	设置菜单栏；//void Navigation(int left,int right,int top);
+	划分界面其余各个区域；//DrawBox(SMALL_RECT rc);
+}
+
+//进入界面后，进行菜单栏功能的选择
+void Enter_Edit()
+{
+	打印输入区；
+	读取并进行键盘事件判断；
+	键盘事件判断：
+	while (true)
+	{
+		如果按下ESC键退出编辑（即退出循环）；
+
+		如果按下ENTER键表示输入完成，此时进行一个输入是否正确的判断；若输入正确，将输入的信息交个状态函数判断，从而进行
+		下一步操作；若输入有误，弹出提示框，让用户重新输入；
+		
+		如果按下Backspace键表示清除一个字符，清除掉的字符用空格涂掉；
+	
+		如果是一些其他字符按键，则将输入的字符显示在输入栏，并移动光标
+	}
+}
+void Help()
+{
+	提示一些如何进行操作的方法，便于用户使用。
+	主要实现在屏幕上打印一些提示信息；
+
+}
+void ERROR()
+{
+	根据菜单栏上面的功能提示，输入合法字符，若输入有误，弹出警告，让用户重新输入
+	主要写一些判断语句，并调用Alert（）函数弹出警告，然后进行输入修改状态
+}
+void Quit()
+{
+	退出程序，关闭页面
+	exit(0);
+}
+int Find()
+{
+	如果找到待找字符串则返回1，否则返回0；
+	利用这个while (pos<strlen(str) && (ans != 0 || flag == 0))循环实现全文多个匹配项的查找
+	void Get_Nextval(int *nextval, char *target);//nextval数组和模式串
+	int Index_KMP(char *str, char *target, int pos, int nextval[]);//KMP算法
+
+}
+void replace(找到的字符串，要替换的字符串)
+{
+	先进行查找操作，若找到该字符串，就将字符串替换掉。
+	如果两者长度正好相等，就直接替换，若替换掉的小于被替换掉的，用空格填补，若替换的大于被替换的就申请一个临时的堆存储起来	
+}
+void Exit_Opearte()
+{
+	退出字符串查找和替换这个编辑区；
+}
+void Get_Screen(int *LEFT, int *RIGHT, int *TOP, int *BOTTOM)//这样的话可以后面考虑不需要参数了
+{
+	将屏幕的长和宽计算出来；
+		修改全局变量
+}
