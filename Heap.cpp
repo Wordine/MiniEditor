@@ -11,25 +11,15 @@ public:
 	~Database();
 	
 private:
-	vector <vector <char*> > col;
+	vector <vector <char*> > col;//二维容器
 };
 
 Database::Database()
 {
-	col.resize(1);
-	col[0].resize(0);
+	col.resize(2);
+	col[1].resize(0);
 }
 
 Database::~Database()
 {
-}
-
-int main()
-{
-	Database A;
-	A.col[0].push_back(NULL);
-	A.col[0][0] = new char(10);
-	A.col[0][0] = "1234567";
-	cout << A.col[0][0][2];
-
 }
