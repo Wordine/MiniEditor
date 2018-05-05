@@ -1,0 +1,15 @@
+保存的文件名称为Data_Edit.h
+
+全局变量
+File_Pos	//.Y(行号） .X(第X字符
+Update_Pos
+
+Line_Check	//检查File_Pos是否在合法的位置，
+在合法位置返回0
+在不存在字符位置的时候返回离最近字符的距离（负数
+切换行返回1
+
+char* Data_Line_Get(int row, int number)	//从 line number的位置获得行宽度的字符串
+
+int Line_Replace(int row, int col, char* oldline, char* newline, int old_len, int new_len)
+

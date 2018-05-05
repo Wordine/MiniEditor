@@ -1,22 +1,35 @@
-class Heap_Linked_List//将规格为100字符的堆以链表方式连接
+#include <vector>
+#include <cstdlib>
+#include <iostream>
+
+using namespace std;
+
+class Database//整体数据结构
 {
 public:
-	Heap_Linked_List();
-	Add_Heap();
-	~Heap_Linked_List();
+	Database();
+	~Database();
+	
 private:
-	char* heap;
-	int length;//此堆中已存字符长度
-	Heap_Linked_List* next;
+	vector <vector <char*> > col;
 };
 
-class Line_Linked_List
+Database::Database()
 {
-public:
-	Line_Linked_List();
-	Add_line();
-	~Line_Linked_List();
-private:
-	Heap_linked_List* heap = NULL;
-	Line_Linked_List* next = NULL; 
-};
+	col.resize(1);
+	col[0].resize(0);
+}
+
+Database::~Database()
+{
+}
+
+int main()
+{
+	Database A;
+	A.col[0].push_back(NULL);
+	A.col[0][0] = new char(10);
+	A.col[0][0] = "1234567";
+	cout << A.col[0][0][2];
+
+}
