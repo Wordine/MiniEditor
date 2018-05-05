@@ -1,0 +1,5 @@
+﻿char* Data_Get(int row, int col, unsigned int n);
+//从第row行的第col个字符开始获得的长度为n的字符串
+
+void Data_Replace(int row, int col, char* new_ch, unsigned int old_len, unsigned int new_len);
+//从第row行的第col个字符开始将长度为old_len的字符串替换为长度为new_len的字符串new_ch
