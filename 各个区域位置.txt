@@ -1,9 +1,0 @@
-﻿struct Screem
-{
-	COORD Cursor_Pos;   //目前光标在屏幕上的位置X，Y
-	COORD File_Pos;      //文件区位置
-	COORD Edit_Pos;      //编辑区位置
-	COORD Operate_Pos;  //操作区位置
-	COORD Inform_Pos;   //通知区位置
-};
-extern struct Screem screem;
