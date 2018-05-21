@@ -11,6 +11,9 @@ public:
 	Database();
 	Database(const char*);
 	~Database();
+	int Get_Row();
+	int Get_Col(int);
+	char* Get_Line(int);
 	char* Data_Get(unsigned int, unsigned int, unsigned int);
 	void Data_Replace(unsigned int, unsigned int, const char*, unsigned int, unsigned int);
 	void File_Save(const char*);
@@ -92,8 +95,35 @@ Database::Database(const char* filename)
 	}
 }
 
-char* Data_Get(unsigned int row, unsigned int col, unsigned int n);
+int Database::Get_Row()	//返回行数
+{
+	return line_num[0];
+}
+
+int Database::Get_Col(int row)	//返回第row行字符数
+{
+	return line_num[row];
+}
+
+char* Database::Get_Line(int row)
+{
+	char* line = new char(line_num[row] + 2);
+	int col;
+
+	for (col = 1; col <= line_num[row]; col++)
+	{
+		line[col] = data[row][(col - 1) / 100 + 1][(col - 1) % 100 + 1];
+	}
+
+	return line;
+
+}
+
+char* Data_Get(unsigned int row, unsigned int col, unsigned int n)
 //从第row行的第col个字符开始获得的长度为n的字符串
+{
+
+}
 
 void Data_Replace(unsigned int row, unsigned int col, const char* new_ch, unsigned int old_len, unsigned int new_len);
 //从第row行的第col个字符开始将长度为old_len的字符串替换为长度为new_len的字符串new_ch
