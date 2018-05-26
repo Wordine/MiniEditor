@@ -109,7 +109,7 @@ char* Database::Get_Line(int row)
 char* Database::Data_Get(unsigned int row, unsigned int col, unsigned int n)
 //从第row行的第col个字符开始获得的长度为n的字符串
 {
-	char* line = new char(n + 1);
+	char* line = new char[n + 1]();
 
 	for (int i = 0; col <= line_num[row]; col++, i++)
 	{
@@ -125,8 +125,7 @@ void Database::Data_Replace(unsigned int row, unsigned int col, const char* new_
 	char *temp = NULL;
 	int i, t;
 	int intercept = old_len - new_len;
-	temp = new char(line_num[row] - col - old_len + 10);
-	temp[0] = 0;
+	temp = new char[line_num[row] - col - old_len + 10]();
 	if (intercept == 0)
 	{
 		for (i = 0; i < old_len; i++, col++)
