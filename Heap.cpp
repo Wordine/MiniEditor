@@ -1,13 +1,16 @@
 #include "Heap.h"
 
-Database::Database()
+void Database::File_Open()
 {
 	vector <char*> _data;
 	data.push_back(_data);
+	data.push_back(_data);
+	data[1].push_back(new char[102]());
+	line_num.push_back(1);
 	line_num.push_back(0);
 }
 
-Database::Database(const char* filename)
+void Database::File_Open(const char* filename)
 //打开文件并写入结构中
 {
 	ifstream file(filename);
@@ -69,6 +72,8 @@ Database::Database(const char* filename)
 			data[line_num[0]][line_num[line_num[0]] / 100 + 1][line_num[line_num[0]] % 100 + 1] = '\n';
 			line_num[line_num[0]]++;
 		}
+		if(line_num[line_num[0]] == 0)
+			data[line_num[0]].push_back(new char[102]());
 	}
 }
 
@@ -116,6 +121,7 @@ void Database::Data_Replace(unsigned int row, unsigned int col, const char* new_
 	int i, t;
 	int intercept = old_len - new_len;
 	temp = new char(line_num[row] - col - old_len + 10);
+	temp[0] = 0;
 	if (intercept == 0)
 	{
 		for (i = 0; i < old_len; i++, col++)
@@ -167,6 +173,8 @@ void Database::Data_Replace(unsigned int row, unsigned int col, const char* new_
 			data[row].push_back(new char[102]());
 		}
 		
+		if(line_num[row] == 0)
+			line_num[row]++;
 		line_num[row] = line_num[row] - intercept - t;
 		
 		for (i = 0; i < new_len; i++)
@@ -205,8 +213,8 @@ void Database::Data_Insert(unsigned int row, unsigned int col, const char c)
 		line_num.insert(it2, 0);
 		data[row + 1].push_back(NULL);
 		data[row + 1].push_back(new char[102]());
-		data[row + 1][1][1] = '\n';
-		line_num[row + 1] = 1;
+	//	data[row + 1][1][1] = '\n';
+	//	line_num[row + 1] = 1;
 		Data_Replace(row + 1, 1, temp, 1, len);
 		free(temp);
 	}
@@ -282,10 +290,14 @@ int Database::Line_Check(int row, int col)
 		else
 		{
 			int i;
-			for (i = 1; data[row][(col - i - 1) / 100 + 1][(col - i - 1) % 100 + 1] != '\0') {}
+			for (i = 1; data[row][(col - i - 1) / 100 + 1][(col - i - 1) % 100 + 1] != '\0'; i++){}
 			return -i;
 		}
 	}
+}
+
+Database::Database()
+{
 }
 Database::~Database()
 {
@@ -293,9 +305,9 @@ Database::~Database()
 
 int main()
 {
-	Database A("123.txt");
-	A.Data_Delete(2, 0);
-	//A.Data_Replace(1, 4, "456", 1, 3);
+	Database A;
+	A.File_Open("123.txt");
+	A.Data_Insert(1, 1, '3');
 	A.File_Save("321.txt");
 	return 0;
 }

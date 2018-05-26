@@ -12,8 +12,9 @@ class Database	//整体数据结构
 {
 public:
 	Database();
-	Database(const char*);
 	~Database();
+	void File_Open();
+	void File_Open(const char* filename);
 	int Get_Row();
 	int Get_Col(int);
 	char* Get_Line(int);
