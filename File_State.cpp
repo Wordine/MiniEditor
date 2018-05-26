@@ -8,12 +8,14 @@
 #include "Edit_Intial.h"
 
 char *File_Name = nullptr;
+int FILE_STATE = 0;
 void File_State(char input[])
 {
 	ChaChu(input, screem.File_Pos);
 	if (_tcscmp(input, "New") == 0)
 	{
 		New();
+		FILE_STATE = OPEN;
 	}
 	else if (_tcscmp(input, "Open") == 0)
 	{
@@ -26,6 +28,7 @@ void File_State(char input[])
 			{
 			case IDYES:
 				New();
+				FILE_STATE = OPEN;
 				break;
 			case IDNO:
 				break;
@@ -34,7 +37,7 @@ void File_State(char input[])
 		else
 		{
 			Open(File_Name);
-			Edit_Initial();
+			FILE_STATE = OPEN;
 		}
 	}
 	else if (_tcscmp(input, "Close") == 0)
@@ -102,5 +105,4 @@ void Close_File()
 void New()
 {
 	Close_File();
-	Edit_Initial();
 }

@@ -2,7 +2,8 @@
 #include"File_Edit.h"
 #include"Global.h"
 #include"KeyBoard.h"
-
+#include"File_State.h"
+#include "Edit_Intial.h"
 void File_Edit()
 {
 	screem.Cursor_Pos = screem.File_Pos;
@@ -66,6 +67,11 @@ void File_Edit()
 							input[i] = '\0';
 						}
 						num = 0;
+						if (FILE_STATE == OPEN)
+						{
+							Edit_Initial();
+							break;
+						}
 					}
 					else
 					{
@@ -82,7 +88,7 @@ void File_Edit()
 }
 int File_Error(char input[])
 {
-	if (_tcscmp(input, "Open") == 0 || _tcscmp(input, "Close") == 0 || _tcscmp(input, "ReName") == 0 || _tcscmp(input, "Save") == 0 ||
+	if (_tcscmp(input, "New") == 0 || _tcscmp(input, "Open") == 0 || _tcscmp(input, "Close") == 0 || _tcscmp(input, "ReName") == 0 || _tcscmp(input, "Save") == 0 ||
 		_tcscmp(input, "Save_As") == 0 || _tcscmp(input, "Enter_Edit") == 0 || _tcscmp(input, "Help") == 0 || _tcscmp(input, "Quit") == 0)
 		return 0;
 	else
