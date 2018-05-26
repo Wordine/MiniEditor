@@ -8,6 +8,7 @@
 
 using namespace std;
 Database Mini;
+extern int FILE_STATE;
 int main()
 {
 	hOut = GetStdHandle(STD_OUTPUT_HANDLE);//这里的参数为标准输出的句柄
@@ -21,6 +22,7 @@ int main()
 		{
 		case FILE:
 			File_Edit();
+			FILE_STATE = 0;
 			File_Status = EDIT;
 			break;
 		case EDIT:

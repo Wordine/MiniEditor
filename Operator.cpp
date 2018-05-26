@@ -8,8 +8,6 @@
 bool Operate_Error(char * input);
 void Operate_Edit()
 {
-	//hIn = GetStdHandle(STD_INPUT_HANDLE);
-//	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	screem.Cursor_Pos = screem.Operate_Pos;
 	SetConsoleCursorPosition(hOut, screem.Cursor_Pos); // 设置光标位置
 	INPUT_RECORD keyRec;
@@ -75,8 +73,6 @@ void Operate_Edit()
 		}
 
 	}
-	//CloseHandle(hIn);
-	//CloseHandle(hOut);
 }
 bool Operate_Error(char * input)
 {
