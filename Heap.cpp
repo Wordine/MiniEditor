@@ -126,6 +126,7 @@ void Database::Data_Replace(unsigned int row, unsigned int col, const char* new_
 	int i, t;
 	int intercept = old_len - new_len;
 	temp = new char(line_num[row] - col - old_len + 10);
+	temp[0] = 0;
 	if (intercept == 0)
 	{
 		for (i = 0; i < old_len; i++, col++)
