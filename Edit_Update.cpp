@@ -40,7 +40,9 @@ void Edit_Update()
 		SetConsoleCursorPosition(hStdout, cursorPos);
 	}
 	cursorPos = temp;
-	SetConsoleCursorPosition(hStdout, cursorPos);
+	temp.X = cursorPos.X + Scrm.Edit_Pos.X - 1;
+	temp.Y = cursorPos.Y + Scrm.Edit_Pos.Y - 1;
+	SetConsoleCursorPosition(hStdout, temp);
 //	Edit_Log.addLog("Update complete");
 }
 
@@ -49,7 +51,7 @@ void Edit_Update(int x)
 	//sting 0 start.
 //	Edit_Log.addLog("Update start");
 	COORD temp = cursorPos;
-	cursorPos = Update_Pos;
+	cursorPos = Scrm.Edit_Pos;
 	int i, j;
 	SetConsoleCursorPosition(hStdout, cursorPos);
 	for (i = 0; i < EDIT_LONG; i++) {
