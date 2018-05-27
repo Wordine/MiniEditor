@@ -19,13 +19,71 @@ void Operate_State(char *input)
 	int i;
 	if (_tcscmp(input, "Replace") == 0)
 	{
+		int  Count_Row, Count_Col, line, col, len_old = 0;
+		COORD out_put = screem.Inform_Pos;
+		Count_Row = Get_Row();
+		char a[50] = "Do you want to replace the string?(y or n)?";
+		int flag = 1;
 		Input_Status = REPLACE;
+		INPUT_RECORD keyRec;
+		DWORD state = 0, res = 0;
+		TCHAR ch = NULL;
+		char b[1];
 
 		MessageBox(NULL, _T("请输入替换前的字符串"), _T("提示"), MB_OK);
 		Source = KeyBoard_Name(screem.Operate_Pos);
-		Search(Source);
-		MessageBox(NULL, _T("请输入替换后的字符串"), _T("提示"), MB_OK);
-		Target = KeyBoard_Name(screem.Operate_Pos);
+		len_old = strlen(Source);
+		if (Search(Source) == true)
+		{
+			MessageBox(NULL, _T("请输入替换后的字符串"), _T("提示"), MB_OK);
+			Target = KeyBoard_Name(screem.Operate_Pos);
+			for (line = 1; line <= Count_Row; line++)
+			{
+				Count_Col = Get_Col(line);
+				for (col = 1; col <= Count_Col; col++)
+				{
+					if (Position[line][col] > 0)
+					{
+						WriteConsoleOutputCharacter(hOut, a, strlen(a), out_put, &num_written);
+						ReadConsoleInput(hIn, &keyRec, 1, &res);
+						if (keyRec.EventType == KEY_EVENT)//如果当前事件是键盘事件
+						{
+							//只在按下时判断，弹起式不判断
+							if (keyRec.Event.KeyEvent.bKeyDown)
+							{
+								//获取控制键的操作
+								if (state != keyRec.Event.KeyEvent.dwControlKeyState)
+								{
+									state = keyRec.Event.KeyEvent.dwControlKeyState;
+								}
+								ch = keyRec.Event.KeyEvent.uChar.AsciiChar;
+								while (ch != 'y'&&ch != 'n')
+								{
+									MessageBox(NULL, _T("你的输入有误！请重新选择："), _T("警告"), MB_OK | MB_ICONEXCLAMATION);
+									ch = keyRec.Event.KeyEvent.uChar.AsciiChar;
+								}
+								out_put.X = out_put.X + strlen(a) + 1;
+								b[0] = ch;
+								WriteConsoleOutputCharacter(hOut, b, 1, out_put, &num_written);
+								if (ch == 'y')
+								{
+									Data_Replace(line, Position[line][col], Target, len_old, strlen(Target));
+									out_put.X = out_put.X - strlen(a) - 1;
+								}
+								else if (ch == 'n')
+								{
+									out_put.X = out_put.X - strlen(a) - 1;
+									continue;
+								}
+
+							}
+						}
+						//////////////调用通知区清屏函数
+						Edit_Update(line, Position[line][col], 9);
+					}
+				}
+			}
+		}
 	}
 	if (_tcscmp(input, "Search") == 0)
 	{
@@ -39,7 +97,7 @@ void Operate_State(char *input)
 		Search(Target);
 	}
 }
-void Search(const char *target)
+bool Search(const char *target)
 {
 	int i, j;
 	int line, len, col;
@@ -85,7 +143,9 @@ void Search(const char *target)
 	if (Count_Find_Num == 0)
 	{
 		MessageBox(NULL, _T("找不到该字符串！"), _T("警告"), MB_OK | MB_ICONEXCLAMATION);
+		return false;
 	}
+	return true;
 }
 //寻找与替换对应字符串
 
@@ -146,8 +206,4 @@ int Index_KMP(char *str, const char *target, int pos, int nextval[])
 		return i - strlen(target);
 	else
 		return 0;
-}
-void Replace()
-{
-	//Line_Replace(int row, int col, char* oldline, char* newline, int old_len, int new_len)
 }
