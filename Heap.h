@@ -4,7 +4,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
-#define EDITWIDTH 8
+#define EDITWIDTH BWIDTH
+extern int BWIDTH;
 
 using namespace std;
 

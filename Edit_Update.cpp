@@ -7,65 +7,72 @@
 
 void Edit_Update()
 {
-	//sting 0 start.
-//	Edit_Log.addLog("Update start");
-	COORD temp = cursorPos;
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(hStdout, &csbi);
+	///
+	COORD temp = Scrm.Edit_Pos;
 	COORD data_pos = Update_Pos;
-	cursorPos = Scrm.Edit_Pos;
 	char* update;
 	int i, j;
 	int ret;
-	SetConsoleCursorPosition(hStdout, cursorPos);
+	SetConsoleCursorPosition(hStdout, temp);
 	for (i = 0; i < EDIT_LONG; i++) {
 		ret = Line_Check(data_pos.Y, data_pos.X);
-		if (ret == 1) {
+		if (ret == 2) {
 			data_pos.X = 1;
 			data_pos.Y++;
+			ret = 0;
+			i--;
+			continue;
+		}
+		if (ret == 1) {
+			for (j = 0; j < EDIT_WIDTH; j++)
+				cout << " ";
+			break;
 		}
 		update = Data_Get(data_pos.Y, data_pos.X, EDIT_WIDTH);
-		data_pos.X += EDIT_LONG;
-		for (j = 1; j <= EDIT_WIDTH; j++) {
-			if (update[j] > 31 || update[j] < 127)
+		data_pos.X += EDIT_WIDTH;
+		for (j = 0; j < EDIT_WIDTH; j++) {
+			if ((update[j] > 31 && update[j] < 127) || update[j] == 13)
 				cout << update[j];
 			else if (update[j] == 0 || update[j] == '\t')
 				cout << " ";
 			else
-//				Edit_Log.addLog("WORING CHAR!");
-			cursorPos.X++;
-			SetConsoleCursorPosition(hStdout, cursorPos);
+				Edit_Log.addLog("WORING CHAR!");
+			temp.X++;
+			SetConsoleCursorPosition(hStdout, temp);
 		}
 		delete[] update;
-		cursorPos.X = Scrm.Edit_Pos.X;
-		cursorPos.Y++;
-		SetConsoleCursorPosition(hStdout, cursorPos);
+		temp.X = Scrm.Edit_Pos.X;
+		temp.Y++;
+		SetConsoleCursorPosition(hStdout, temp);
 	}
-	cursorPos = temp;
-	temp.X = cursorPos.X + Scrm.Edit_Pos.X - 1;
-	temp.Y = cursorPos.Y + Scrm.Edit_Pos.Y - 1;
+	temp.X = csbi.dwCursorPosition.X;
+	temp.Y = csbi.dwCursorPosition.Y;
 	SetConsoleCursorPosition(hStdout, temp);
-//	Edit_Log.addLog("Update complete");
 }
 
 void Edit_Update(int x)
 {
-	//sting 0 start.
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(hStdout, &csbi);
 //	Edit_Log.addLog("Update start");
-	COORD temp = cursorPos;
-	cursorPos = Scrm.Edit_Pos;
+	COORD temp = Scrm.Edit_Pos;
 	int i, j;
-	SetConsoleCursorPosition(hStdout, cursorPos);
+	SetConsoleCursorPosition(hStdout, temp);
 	for (i = 0; i < EDIT_LONG; i++) {
 		for (j = 1; j <= EDIT_WIDTH; j++) {
 			cout << " ";
-			cursorPos.X++;
-			SetConsoleCursorPosition(hStdout, cursorPos);
+			temp.X++;
+			SetConsoleCursorPosition(hStdout, temp);
 		}
-		cursorPos.X = Scrm.Edit_Pos.X;
-		cursorPos.Y++;
-		SetConsoleCursorPosition(hStdout, cursorPos);
+		temp.X = Scrm.Edit_Pos.X;
+		temp.Y++;
+		SetConsoleCursorPosition(hStdout, temp);
 	}
-	cursorPos = temp;
-	SetConsoleCursorPosition(hStdout, cursorPos);
+	temp.X = csbi.dwCursorPosition.X;
+	temp.Y = csbi.dwCursorPosition.Y;
+	SetConsoleCursorPosition(hStdout, temp);
 //	Edit_Log.addLog("Update clear complete");
 }
 
@@ -77,6 +84,7 @@ void Edit_Update(int y, int x, int len)
 		if (Update_Pos.X <= 0)
 			break;
 	}
+	Update_Pos.X += EDIT_WIDTH;
 	Edit_Update();
 	Update_Pos = temp;
 }

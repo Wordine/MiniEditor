@@ -57,7 +57,7 @@ int Edit_Insert()
 	   }
 	}
 	//normal char
-	else if (word > 31 && word < 127){
+	else if ((word > 31 && word < 127) || word == 13){
 //		Edit_Log.addLog("Insert one char!");
 //		Edit_Log.addLog(&word);
 		string informa = "dbg:";
@@ -74,7 +74,7 @@ int Edit_Insert()
 	else if (word == 8) {
 //		Edit_Log.addLog("Backspace");
 		Cursor_Move(LEFT);
-		Data_Delete(File_Pos.Y, File_Pos.X - 1);
+		Data_Delete(File_Pos.Y, File_Pos.X);
 		If_Change = 1;
 		Edit_Update();
 		Inform();

@@ -17,7 +17,7 @@
 #include <string>
 
 using namespace std;
-//#include "NetDataLog.h"
+#include "NetDataLog.h"
 extern int Edit_Insert();
 extern void Cursor_Move(int direct);
 extern void Edit_Update();
@@ -27,7 +27,7 @@ extern bool Edit_Initial();
 extern void Inform(string message);
 extern void Inform();
 
-//extern NetDataLog Edit_Log;
+extern NetDataLog Edit_Log;
 
 
 

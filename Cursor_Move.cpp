@@ -113,7 +113,7 @@ void Cursor_Move(int direct)
 		if (File_Pos.X <= EDIT_WIDTH) {
 			File_Pos.Y--;
 			ret = Get_Col(File_Pos.Y);
-			File_Pos.X = ret + Line_Check(File_Pos.Y, ret - ((ret - 1) % EDIT_WIDTH + 1) + cursorPos.X);
+			File_Pos.X = ret - ret % EDIT_WIDTH + cursorPos.X + Line_Check(File_Pos.Y, ret - ((ret - 1) % EDIT_WIDTH + 1) + cursorPos.X);
 			cursorPos.X = (File_Pos.X - 1) % EDIT_WIDTH + 1;
 			//upper bound
 			if (cursorPos.Y == 1) {
@@ -145,7 +145,7 @@ void Cursor_Move(int direct)
 
 		//last char
 		if (ret == 2 || ret == -1) {
-			//end od file
+			//end of file
 			if (Line_Check(File_Pos.Y + 1, 1) == 1) {
 				break;
 			}
@@ -198,8 +198,10 @@ void Cursor_Move(int direct)
 			if (Line_Check(File_Pos.Y + 1, File_Pos.X) == 1) {
 				break;
 			}
-			File_Pos.X = cursorPos.X;
+			File_Pos.X = cursorPos.X + Line_Check(File_Pos.Y + 1, cursorPos.X);
 			File_Pos.Y++;
+
+			cursorPos.X = File_Pos.X;
 
 			if (cursorPos.Y == EDIT_LONG) {
 				Update_Move(DOWN);
