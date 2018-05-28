@@ -94,7 +94,7 @@ int Database::Get_Col(int row)	//返回第row行字符数
 
 char* Database::Get_Line(int row)
 {
-	char* line = new char(line_num[row] + 1);
+	char* line = new char[line_num[row] + 1]();
 	int i;
 
 	for (i = 0; i < line_num[row]; i++)
@@ -111,7 +111,7 @@ char* Database::Data_Get(unsigned int row, unsigned int col, unsigned int n)
 {
 	char* line = new char[n + 1]();
 
-	for (int i = 0; col <= line_num[row]; col++, i++)
+	for (int i = 0; col <= line_num[row] && i < n; col++, i++)
 	{
 		line[0] = data[row][(col - 1) / 100 + 1][(col - 1) % 100 + 1];
 	}

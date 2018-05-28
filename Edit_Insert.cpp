@@ -3,9 +3,11 @@
 
 #include "MiniWord.h"
 #include "Edit.h"
+#include "NetDataLog.h"
 using namespace std;
 
 //extern int test_intial();
+extern NetDataLog A;
 
 int Edit_Insert()
 {
@@ -58,6 +60,10 @@ int Edit_Insert()
 	else if (word > 31 && word < 127){
 //		Edit_Log.addLog("Insert one char!");
 //		Edit_Log.addLog(&word);
+		string informa = "dbg:";
+		informa.push_back(char('0' + File_Pos.X));
+		informa.push_back(char('0' + File_Pos.Y));
+		A.addLog(informa);
 		Data_Insert(File_Pos.Y, File_Pos.X, word);
 		Cursor_Move(RIGHT);
 		Edit_Update();
