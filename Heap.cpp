@@ -87,13 +87,9 @@ int Database::Get_Row()	//返回行数
 	return line_num[0];
 }
 
-int Database::Get_Col(int row)	//返回第row行字符数 ////wording edited;
+int Database::Get_Col(int row)
 {
-	if (line_num[row] == 1) {
-		return 1;
-	}
-	else
-		return line_num[row] - 1;
+	return line_num[row];
 }
 
 char* Database::Get_Line(int row)
@@ -282,29 +278,29 @@ void Database::File_Save(const char* filename)
 
 int Database::Line_Check(int row, int col)
 {
+	//line_num[0] //line_num[row]
 	char c;
 	if(row <= line_num[0] && col <= line_num[row])
 		c = data[row][(col - 1) / 100 + 1][(col - 1) % 100 + 1];
+	//eof
 	if (row > line_num[0])
 		return 1;
-	else if (col - line_num[row] + 1 > EDITWIDTH - ((line_num[row] - 1) % EDITWIDTH))
+	//out of range
+	else if (col > line_num[row] - ((line_num[row]) % EDITWIDTH) + EDITWIDTH)
 		return 2;
-	else if (line_num[0] > row && col > line_num[row] - 1)
-		return -(col - line_num[row] + 1);
-	else if (col > line_num[row])
+	//end line
+	else if (line_num[0] > row && col > line_num[row]) 
 		return -(col - line_num[row]);
-	else if (col <= line_num[row] && c != '\n' && c != '\0' && c != '\t')
+	//end last line
+	else if (line_num[0] == row && col > line_num[row])
+		return -(col - line_num[row] - 1);
+	//normal
+	else if (col <= line_num[row] && c != '\0' && c != '\t')
 		return 0;
-	else
-	{
-		if (col == EDITWIDTH)
-			return -1;
-		else
-		{
-			int i;
-			for (i = 1; data[row][(col - i - 1) / 100 + 1][(col - i - 1) % 100 + 1] != '\0'; i++){}
-			return -i;
-		}
+	else if (col <= line_num[row] && (c != '\0' || c != '\t')) {
+		int i;
+		for (i = 1; data[row][(col - i - 1) / 100 + 1][(col - i - 1) % 100 + 1] != '\0'; i++) {}
+		return -i;
 	}
 }
 Database::~Database()

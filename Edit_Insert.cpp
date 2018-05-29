@@ -57,13 +57,7 @@ int Edit_Insert()
 	   }
 	}
 	//normal char
-	else if ((word > 31 && word < 127) || word == 13){
-//		Edit_Log.addLog("Insert one char!");
-//		Edit_Log.addLog(&word);
-		string informa = "dbg:";
-		informa.push_back(char('0' + File_Pos.X));
-		informa.push_back(char('0' + File_Pos.Y));
-		A.addLog(informa);
+	else if ((word > 31 && word < 127) || word == '\n' || word == '\t'){
 		Data_Insert(File_Pos.Y, File_Pos.X, word);
 		Cursor_Move(RIGHT);
 		Edit_Update();
