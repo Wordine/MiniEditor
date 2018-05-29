@@ -10,6 +10,7 @@ void Database::File_Open()
 	vector <char*> _data;
 	data.push_back(_data);
 	data.push_back(_data);
+	data[1].push_back(NULL);
 	data[1].push_back(new char[102]());
 	line_num.push_back(1);
 	line_num.push_back(0);
@@ -177,8 +178,6 @@ void Database::Data_Replace(unsigned int row, unsigned int col, const char* new_
 			data[row].push_back(new char[102]());
 		}
 		
-		if(line_num[row] == 0)
-			line_num[row]++;
 		line_num[row] = line_num[row] - intercept - t;
 		
 		for (i = 0; i < new_len; i++)
@@ -306,5 +305,3 @@ int Database::Line_Check(int row, int col)
 Database::~Database()
 {
 }
-
-
