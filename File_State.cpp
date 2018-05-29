@@ -14,7 +14,7 @@ void File_State(char input[])
 	ChaChu(input, screem.File_Pos);
 	if (_tcscmp(input, "New") == 0)
 	{
-		New();
+		Mini.File_Open();
 		FILE_STATE = OPEN;
 	}
 	else if (_tcscmp(input, "Open") == 0)
@@ -27,7 +27,7 @@ void File_State(char input[])
 			switch (result)
 			{
 			case IDYES:
-				New();
+				Mini.File_Open();
 				FILE_STATE = OPEN;
 				break;
 			case IDNO:
@@ -102,7 +102,3 @@ void Close_File()
 	IF_HAS_SAVE = 0;
 }
 
-void New()
-{
-	Close_File();
-}
