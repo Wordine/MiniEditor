@@ -64,7 +64,9 @@ int Edit_Insert()
 	   }
 	}
 	//normal char
-	else if ((word > 31 && word < 127) || word == '\n' || word == '\t'){
+	else if ((word > 31 && word < 127) || word == '\n' || word == '\t' || word == '\r'){
+		if (word == '\r')
+			word = '\n';
 		if (Edit_status == INSERT_MODE) {
 			Data_Insert(File_Pos.Y, File_Pos.X, word);
 			Cursor_Move(RIGHT);
