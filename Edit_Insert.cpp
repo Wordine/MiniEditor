@@ -6,12 +6,19 @@
 #include "NetDataLog.h"
 using namespace std;
 
+struct buff {
+	int size;
+	char* data;
+};
 //extern int test_intial();
 extern NetDataLog A;
 
 int Edit_Insert()
 {
    char word;///
+   int num;
+   char begin;
+   buff buff_edit;
   // test_intial();///
    Edit_Initial();///
    Edit_status = INSERT_MODE;
@@ -58,11 +65,13 @@ int Edit_Insert()
 	}
 	//normal char
 	else if ((word > 31 && word < 127) || word == '\n' || word == '\t'){
-		Data_Insert(File_Pos.Y, File_Pos.X, word);
-		Cursor_Move(RIGHT);
-		Edit_Update();
-		If_Change = 1;
-		Inform();
+		if (Edit_status == INSERT_MODE) {
+			Data_Insert(File_Pos.Y, File_Pos.X, word);
+			Cursor_Move(RIGHT);
+			Edit_Update();
+			If_Change = 1;
+			Inform();
+		}
 	}
 	//backspace
 	else if (word == 8) {
