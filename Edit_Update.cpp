@@ -10,6 +10,11 @@ void Edit_Update()
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(hStdout, &csbi);
 	///
+	CONSOLE_CURSOR_INFO CursorInfo;
+	GetConsoleCursorInfo(hStdout, &CursorInfo);//获取控制台光标信息  
+	CursorInfo.bVisible = false; //隐藏控制台光标  
+	SetConsoleCursorInfo(hStdout, &CursorInfo);//设置控制台光标状态 
+	///
 	COORD temp = Scrm.Edit_Pos;
 	COORD data_pos = Update_Pos;
 	char* update;
@@ -49,6 +54,9 @@ void Edit_Update()
 	}
 	temp.X = csbi.dwCursorPosition.X;
 	temp.Y = csbi.dwCursorPosition.Y;
+
+	CursorInfo.bVisible = true; //隐藏控制台光标  
+	SetConsoleCursorInfo(hStdout, &CursorInfo);//设置控制台光标状态 
 	SetConsoleCursorPosition(hStdout, temp);
 }
 
@@ -56,6 +64,11 @@ void Edit_Update(int x)
 {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(hStdout, &csbi);
+	///
+	CONSOLE_CURSOR_INFO CursorInfo;
+	GetConsoleCursorInfo(hStdout, &CursorInfo);//获取控制台光标信息  
+	CursorInfo.bVisible = false; //隐藏控制台光标  
+	SetConsoleCursorInfo(hStdout, &CursorInfo);//设置控制台光标状态 
 //	Edit_Log.addLog("Update start");
 	COORD temp = Scrm.Edit_Pos;
 	int i, j;
@@ -72,6 +85,10 @@ void Edit_Update(int x)
 	}
 	temp.X = csbi.dwCursorPosition.X;
 	temp.Y = csbi.dwCursorPosition.Y;
+	///
+	CursorInfo.bVisible = true; //隐藏控制台光标  
+	SetConsoleCursorInfo(hStdout, &CursorInfo);//设置控制台光标状态 
+	///
 	SetConsoleCursorPosition(hStdout, temp);
 //	Edit_Log.addLog("Update clear complete");
 }

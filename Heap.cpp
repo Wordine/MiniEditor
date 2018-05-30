@@ -173,12 +173,14 @@ void Database::Data_Replace(unsigned int row, unsigned int col, const char* new_
 		{
 			data[row].pop_back();
 		}
-		else if(intercept  < 0 && (100 - line_num[row] % 100) < -intercept - t)
+		else if(intercept  < 0 && (100 - (line_num[row] + 1) % 100 - 1) < -intercept - t || (100 - line_num[row] % 100) < -intercept - t)
 		{
 			data[row].push_back(new char[102]());
 		}
 		
 		line_num[row] = line_num[row] - intercept - t;
+		if(line_num[row] == 0)
+			data[row].push_back(new char[102]());
 		
 		for (i = 0; i < new_len; i++)
 			data[row][(col + i - 1) / 100 + 1][(col + i - 1) % 100 + 1] = new_ch[i];
@@ -202,11 +204,11 @@ void Database::Data_Insert(unsigned int row, unsigned int col, const char c)
 	}
 	else if (c == '\n')
 	{
-		char *temp = new char(line_num[row] - col + 2);
+		char *temp = new char[line_num[row] - col + 2];
 		int len = line_num[row] - col + 1;
 		for (int i = col; i <= line_num[row]; i++)
 			temp[i - col] = data[row][(i - 1) / 100 + 1][(i - 1) % 100 + 1];
-		Data_Replace(row, col, temp, len, 0);
+		Data_Replace(row, col, "", len, 0);
 		Data_Replace(row, col, "\n", 0, 1);
 		vector< vector<char*> >::iterator it1 = data.begin() + row + 1;
 		vector <char*> _data;
