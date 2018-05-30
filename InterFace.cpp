@@ -13,7 +13,7 @@ void Get_Screen()
 	BTOP = TOP + 4;
 	BBOTTOM = BOTTOM - 6;
 	BWIDTH = BRIGHT - BLEFT;
-	BHEIGHT = BBOTTOM - BTOP + 1;
+	BHEIGHT = BBOTTOM - BTOP - 2;
 	INFOHEIGHT = BOTTOM - BBOTTOM + 1;
 
 	screem.Cursor_Pos.X = LEFT + 82;
