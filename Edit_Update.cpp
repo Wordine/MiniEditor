@@ -101,7 +101,14 @@ void Edit_Update(int y, int x, int len)
 		if (Update_Pos.X <= 0)
 			break;
 	}
+	Update_Pos.Y = y;
 	Update_Pos.X += EDIT_WIDTH;
 	Edit_Update();
+	COORD pos;
+	pos.Y = y - 1 + (x - ((x - 1) % EDITWIDTH + 1)) / EDIT_WIDTH;
+	pos.X = (x - 1) % EDITWIDTH + 1;
+	Scrm.Cursor_Pos.X = Scrm.Edit_Pos.X + pos.X - 1;
+	Scrm.Cursor_Pos.Y = Scrm.Edit_Pos.Y + pos.Y - 1;
+	SetConsoleCursorPosition(hStdout, Scrm.Cursor_Pos);
 	Update_Pos = temp;
 }
