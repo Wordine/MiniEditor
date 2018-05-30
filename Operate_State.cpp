@@ -7,12 +7,12 @@
 #include"KeyBoard.h"
 #include"Edit.h"
 
-
 using namespace std;
 #define REPLACE 0
 #define SEARCH 1
 int Input_Status;
 static int Position[MAX_LINE + 1][MAX_COL + 1];
+extern void Clear_Inform();
 void Operate_State(char *input)
 {
 	ChaChu(input, screem.Operate_Pos);
@@ -31,8 +31,9 @@ void Operate_State(char *input)
 		if (Search_Replace(Source) == true)
 		{
 			RePlace(len_old);
-			SetConsoleCursorPosition(hOut, screem.Operate_Pos);
+			MessageBox(NULL, _T("替换完成"), _T("提示"), MB_OK);
 		}
+		SetConsoleCursorPosition(hOut, screem.Operate_Pos);
 	}
 	if (_tcscmp(input, "Search") == 0)
 	{
@@ -115,7 +116,6 @@ bool Search(const char *target)
 	{
 		Count_Col = Get_Col(line);
 		text = Get_Line(line);
-		//WriteConsoleOutputCharacter(hOut, receiver, strlen(receiver), out_put, &num_written);
 		Find_(text, target, Position, line);
 	
 		out_put.X = screem.Inform_Pos.X;
@@ -123,10 +123,9 @@ bool Search(const char *target)
 		{
 			if (Position[line][col] > 0)
 			{
-			//	MessageBox(NULL, _T("查找下一个"), _T("提示"), MB_YESNO);
 				Edit_Update(line, Position[line][col], 9);
-				_getch();
-				a[0] = text[Position[line][col]];
+ 				_getch();
+			//	a[0] = text[Position[line][col]];
 			//	WriteConsoleOutputCharacter(hOut, a,1, out_put, &num_written);
 				out_put.X += 2;
 				Count_Find_Num++;
@@ -164,7 +163,7 @@ void Find_(char *str, const char *target, int Position[][MAX_COL + 1], int row)
 		{
 			i++;
 			pos = ans + strlen(target) - 1;
-			Position[row][i] = ans + 1;
+			Position[row][i] = ans;
 		}
 	}
 }
@@ -203,7 +202,7 @@ int Index_KMP(char *str, const char *target, int pos, int nextval[], int col_len
 		}
 	}
 	if (j > (strlen(target) - 1))
-		return i - strlen(target);
+		return i - strlen(target) + 1;
 	else
 		return 0;
 }
@@ -211,6 +210,7 @@ void RePlace(int len_old)
 {
 	int  Count_Row, Count_Col, line, col;
 	COORD out_put = screem.Inform_Pos;
+	out_put.X = screem.Inform_Pos.X + 1;
 	Count_Row = Get_Row();
 	char a[50] = "Do you want to replace the string?(y or n)?";
 	int flag = 1;
@@ -229,9 +229,10 @@ void RePlace(int len_old)
 		{
 			if (Position[line][col] > 0)
 			{
+				WriteConsoleOutputCharacter(hOut, " ", 1, out_put, &num_written);
 				Edit_Update(line, Position[line][col], 9);
 				WriteConsoleOutputCharacter(hOut, a, strlen(a), out_put, &num_written);
-				
+				WriteConsoleOutputCharacter(hOut, b, 1, out_put, &num_written);
 				ReadConsoleInput(hIn, &keyRec, 1, &res);
 				if (keyRec.EventType == KEY_EVENT)//如果当前事件是键盘事件
 				{
@@ -243,33 +244,38 @@ void RePlace(int len_old)
 						{
 							state = keyRec.Event.KeyEvent.dwControlKeyState;
 						}
-						ch = keyRec.Event.KeyEvent.uChar.AsciiChar;
-						while (ch != 'y'&&ch != 'n')
-						{
-							MessageBox(NULL, _T("你的输入有误！请重新选择："), _T("警告"), MB_OK | MB_ICONEXCLAMATION);
-							ch = keyRec.Event.KeyEvent.uChar.AsciiChar;
-						}
-						out_put.X = out_put.X + strlen(a) + 1;
-						b[0] = ch;
-						WriteConsoleOutputCharacter(hOut, b, 1, out_put, &num_written);
-						if (ch == 'y')
+						if (VK_RETURN == keyRec.Event.KeyEvent.wVirtualKeyCode)
 						{
 							Data_Replace(line, Position[line][col], Target, len_old, strlen(Target));
 							out_put.X = out_put.X - strlen(a) - 1;
 						}
-						else if (ch == 'n')
+						else
 						{
-							out_put.X = out_put.X - strlen(a) - 1;
-							continue;
+							ch = keyRec.Event.KeyEvent.uChar.AsciiChar;
+							while (ch != 'y'&&ch != 'n'&&(ch <= 127 && ch >= 32))
+							{
+								MessageBox(NULL, _T("你的输入有误！请重新选择："), _T("警告"), MB_OK | MB_ICONEXCLAMATION);
+								ReadConsoleInput(hIn, &keyRec, 1, &res);
+								ch = keyRec.Event.KeyEvent.uChar.AsciiChar;
+							}
+							out_put.X = out_put.X + strlen(a) + 1;
+							b[0] = ch;
+							WriteConsoleOutputCharacter(hOut, b, 1, out_put, &num_written);
+							if (ch == 'y')
+							{
+								Data_Replace(line, Position[line][col], Target, len_old, strlen(Target));
+								out_put.X = out_put.X - strlen(a) - 1;
+							}
+							else if (ch == 'n')
+							{
+								out_put.X = out_put.X - strlen(a) - 1;
+								continue;
+							}
 						}
-
 					}
 				}
-				//////////////调用通知区清屏函数
-				//Data_Replace(line, Position[line][col], Target, len_old, strlen(Target));
-				//Inform(0);
-				//exit(0);
 			}
 		}
 	}
+	Clear_Inform();
 }
