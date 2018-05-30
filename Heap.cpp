@@ -95,10 +95,10 @@ int Database::Get_Col(int row)
 
 char* Database::Get_Line(int row)
 {
-	char* line = new char[line_num[row] + 1]();
+	char* line = new char[line_num[row] + 2]();
 	int i;
 
-	for (i = 0; i < line_num[row]; i++)
+	for (i = 1; i <= line_num[row]; i++)
 	{
 		line[i] = data[row][(i) / 100 + 1][(i) % 100 + 1];
 	}
