@@ -83,8 +83,6 @@ void File_Edit()
 		}
 
 	}
-	//CloseHandle(hIn);
-//	CloseHandle(hOut);
 }
 int File_Error(char input[])
 {
