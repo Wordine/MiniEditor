@@ -218,7 +218,7 @@ void Database::Data_Insert(unsigned int row, unsigned int col, const char c)
 		data[row + 1].push_back(new char[102]());
 	//	data[row + 1][1][1] = '\n';
 	//	line_num[row + 1] = 1;
-		Data_Replace(row + 1, 1, temp, 1, len);
+		Data_Replace(row + 1, 1, temp, 0, len);
 		free(temp);
 	}
 	else
@@ -241,7 +241,6 @@ void Database::Data_Delete(unsigned int row, unsigned int col)
 		vector<int>::iterator it2 = line_num.begin() + row;
 		line_num.erase(it2);
 		line_num[0]--;
-
 	}
 	else
 	{
