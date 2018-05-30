@@ -100,7 +100,7 @@ char* Database::Get_Line(int row)
 
 	for (i = 1; i <= line_num[row]; i++)
 	{
-		line[i] = data[row][(i) / 100 + 1][(i) % 100 + 1];
+		line[i] = data[row][(i - 1) / 100 + 1][(i - 1) % 100 + 1];
 	}
 
 	return line;
