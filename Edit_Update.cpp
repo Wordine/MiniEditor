@@ -33,7 +33,7 @@ void Edit_Update()
 		if (ret == 1) {
 			for (j = 0; j < EDIT_WIDTH; j++)
 				cout << " ";
-			break;
+			continue;
 		}
 		update = Data_Get(data_pos.Y, data_pos.X, EDIT_WIDTH);
 		data_pos.X += EDIT_WIDTH;
