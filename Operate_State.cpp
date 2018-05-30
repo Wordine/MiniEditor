@@ -102,7 +102,7 @@ bool Search(const char *target)
 	int i, j;
 	int line, len, col;
 	//char receiver[MAX_COL];
-	char *text;
+	char *text = nullptr;
 	int  Count_Row, Count_Col, Count_Find_Num = 0;
 	Count_Row = Get_Row();
 	char a[1];
@@ -127,9 +127,11 @@ bool Search(const char *target)
 		{
 			if (Position[line][col] > 0)
 			{
+			//	MessageBox(NULL, _T("查找下一个"), _T("提示"), MB_YESNO);
 				Edit_Update(line, Position[line][col], 9);
+				Sleep(500);
 				a[0] = text[Position[line][col]];
-				WriteConsoleOutputCharacter(hOut, a,1, out_put, &num_written);
+			//	WriteConsoleOutputCharacter(hOut, a,1, out_put, &num_written);
 				out_put.X += 2;
 				Count_Find_Num++;
 			}
@@ -138,8 +140,10 @@ bool Search(const char *target)
 				break;
 			}
 		}
+
 		out_put.Y++;
 	}
+	SetConsoleCursorPosition(hOut, screem.Operate_Pos);
 	if (Count_Find_Num == 0)
 	{
 		MessageBox(NULL, _T("找不到该字符串！"), _T("警告"), MB_OK | MB_ICONEXCLAMATION);
@@ -155,11 +159,11 @@ void Find_(char *str, const char *target, int Position[][MAX_COL + 1], int row)
 	int nextval[MAX_INPUT];
 	int pos = 1, i = 0, ans = 0, flag = 0;
 	Get_Nextval(nextval, target);
-
-	while (pos<strlen(str) && (ans != 0 || flag == 0))
+	int col_length = Get_Col(row);
+	while (pos<col_length && (ans != 0 || flag == 0))
 	{
 		flag = 1;
-		ans = Index_KMP(str, target, pos, nextval);
+		ans = Index_KMP(str, target, pos, nextval, col_length);
 		if (ans != 0)
 		{
 			i++;
@@ -187,10 +191,10 @@ void Get_Nextval(int *nextval, const char *target)
 			k = nextval[k];
 	}
 }
-int Index_KMP(char *str, const char *target, int pos, int nextval[])
+int Index_KMP(char *str, const char *target, int pos, int nextval[], int col_length)
 {
 	int i = pos, j = 1;
-	while ((i < strlen(str)) && (j < strlen(target)))
+	while ((i < col_length) && (j < strlen(target)))
 	{
 		if (j == 0 || str[i] == target[j])
 		{
