@@ -35,7 +35,7 @@ void Edit_Update()
 		for (j = 0; j < EDIT_WIDTH; j++) {
 			if ((update[j] > 31 && update[j] < 127) || update[j] == 13)
 				cout << update[j];
-			else if (update[j] == 0 || update[j] == '\t')
+			else if (update[j] == 0 || update[j] == '\t' || update[j] == '\n')
 				cout << " ";
 			else
 				Edit_Log.addLog("WORING CHAR!");

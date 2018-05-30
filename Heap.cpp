@@ -232,6 +232,8 @@ void Database::Data_Insert(unsigned int row, unsigned int col, const char c)
 
 void Database::Data_Delete(unsigned int row, unsigned int col)
 {
+	if (col >= line_num[row] - 1)
+		return;
 	if (col == 0)
 	{
 		char *temp = Get_Line(row);
