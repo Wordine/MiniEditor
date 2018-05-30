@@ -65,6 +65,10 @@ void File_State(char input[])
 		If_Change = 0;
 		IF_HAS_SAVE = 1;
 	}
+	else if (_tcscmp(input, "Quit") == 0)
+	{
+		exit(0);
+	}
 }
 void Close_File()
 {
