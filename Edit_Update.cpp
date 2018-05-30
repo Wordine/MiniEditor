@@ -33,6 +33,9 @@ void Edit_Update()
 		if (ret == 1) {
 			for (j = 0; j < EDIT_WIDTH; j++)
 				cout << " ";
+			temp.X = Scrm.Edit_Pos.X;
+			temp.Y++;
+			SetConsoleCursorPosition(hStdout, temp);
 			continue;
 		}
 		update = Data_Get(data_pos.Y, data_pos.X, EDIT_WIDTH);
@@ -96,6 +99,7 @@ void Edit_Update(int x)
 void Edit_Update(int y, int x, int len)
 {
 	COORD temp = Update_Pos;
+	Update_Pos.X = x + 1 - (x - 1) % EDIT_WIDTH;
 	for (int i = 0; i < 5; i++) {
 		Update_Pos.X -= EDIT_WIDTH;
 		if (Update_Pos.X <= 0)
@@ -105,7 +109,7 @@ void Edit_Update(int y, int x, int len)
 	Update_Pos.X += EDIT_WIDTH;
 	Edit_Update();
 	COORD pos;
-	pos.Y = y - 1 + (x - ((x - 1) % EDITWIDTH + 1)) / EDIT_WIDTH;
+	pos.Y = (x - ((x - 1) % EDITWIDTH + 1)) / EDIT_WIDTH;
 	pos.X = (x - 1) % EDITWIDTH + 1;
 	Scrm.Cursor_Pos.X = Scrm.Edit_Pos.X + pos.X;
 	Scrm.Cursor_Pos.Y = Scrm.Edit_Pos.Y + pos.Y;
