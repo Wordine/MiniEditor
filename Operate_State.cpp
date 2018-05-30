@@ -1,5 +1,6 @@
 #include<cstring>
 #include<string>
+#include<conio.h>
 #include"MiniWord.h"
 #include"Operate_State.h"
 #include"Global.h"
@@ -129,7 +130,7 @@ bool Search(const char *target)
 			{
 			//	MessageBox(NULL, _T("查找下一个"), _T("提示"), MB_YESNO);
 				Edit_Update(line, Position[line][col], 9);
-				Sleep(500);
+				_getch();
 				a[0] = text[Position[line][col]];
 			//	WriteConsoleOutputCharacter(hOut, a,1, out_put, &num_written);
 				out_put.X += 2;
