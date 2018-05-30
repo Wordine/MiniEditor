@@ -20,7 +20,7 @@ int Edit_Insert()
    char begin;
    buff buff_edit;
   // test_intial();///
-   Edit_Initial();///
+   Edit_Turn();///
    Edit_status = INSERT_MODE;
    Edit_Update();
    Inform();
@@ -52,13 +52,14 @@ int Edit_Insert()
 				Inform();
 	   		break;
 			case 83:
-				//delete///problem!
+				//delete
 				Data_Delete(File_Pos.Y, File_Pos.X);
-//				Edit_Log.addLog("Delete");
+				Edit_Update();
+				Edit_Log.addLog("Delete");
 				Inform();
 				break;
 	   		default:
-//				Edit_Log.addLog("unknow command");
+				Edit_Log.addLog("unknow command");
 				//unknow command 
 				break;
 	   }
@@ -77,7 +78,7 @@ int Edit_Insert()
 	}
 	//backspace
 	else if (word == 8) {
-//		Edit_Log.addLog("Backspace");
+		Edit_Log.addLog("Backspace");
 		Cursor_Move(LEFT);
 		Data_Delete(File_Pos.Y, File_Pos.X);
 		If_Change = 1;
@@ -88,21 +89,20 @@ int Edit_Insert()
 	else if (word == 27) {
 		///
 		Inform();
-//		Edit_Log.addLog("esc detected Edit mode out");
-		return 0;
+		Edit_Log.addLog("esc detected Edit mode out");
+		return FILE;
 	}
 	else if (word == 0) {
 		word = _getch();
 		//f1 // enter search mode
 		if (word == 59) {
-			Inform();
-//			Edit_Log.addLog("f1 detected enter search mode");
+			Edit_Log.addLog("f1 detected enter search mode");
 			//enter search mode
-			return 1;
+			return OPERATE;
 		}
 		//f2 //enter Edit_Mode
 		else if (word == 60) {
-
+			Edit_status = EDIT_MODE;
 		}
 	}
    }
