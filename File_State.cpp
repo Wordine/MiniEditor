@@ -8,19 +8,29 @@
 #include "Edit_Intial.h"
 extern void Clear_Inform();
 extern void Edit_Update(int);
-char *File_Name = nullptr;
+static char *File_Name = nullptr;
 int FILE_STATE = 0;
+static int HAS_FILE_OPEN_NEW = 0;
 void File_State(char input[])
 {
 	ChaChu(input, screem.File_Pos);
 	if (_tcscmp(input, "New") == 0)
 	{
+		if (HAS_FILE_OPEN_NEW == 1)//如果已经进行过文件新建或打开操作，先关闭当前文件再进行操作
+		{
+			Close_File();
+		}
 		IF_HAS_SAVE = 0;
 		Mini.File_Open();
 		FILE_STATE = OPEN;
+		HAS_FILE_OPEN_NEW = 1;
 	}
 	else if (_tcscmp(input, "Open") == 0)
 	{
+		if (HAS_FILE_OPEN_NEW == 1)//如果已经进行过文件新建或打开操作，先关闭当前文件再进行操作
+		{
+			Close_File();
+		}
 		MessageBox(NULL, _T("请输入你要打开的文件名"), _T("提示"), MB_OK);
 		File_Name = KeyBoard_Name(screem.File_Pos);
 		if (_access(File_Name, 0) != 0)
@@ -32,6 +42,7 @@ void File_State(char input[])
 				IF_HAS_SAVE = 0;
 				Mini.File_Open();
 				FILE_STATE = OPEN;
+				HAS_FILE_OPEN_NEW = 1;
 				break;
 			case IDNO:
 				break;
@@ -42,16 +53,12 @@ void File_State(char input[])
 			Open(File_Name);
 			FILE_STATE = OPEN;
 			IF_HAS_SAVE = 1;
+			HAS_FILE_OPEN_NEW = 1;
 		}
 	}
 	else if (_tcscmp(input, "Close") == 0)
 	{
-		FILE_STATE = 0;
 		Close_File();
-		Edit_Close();
-		Edit_Update(0);
-		screem.Cursor_Pos = screem.File_Pos;
-		SetConsoleCursorPosition(hOut, screem.Cursor_Pos);
 	}
 	else if (_tcscmp(input, "ReName") == 0)
 	{
@@ -63,6 +70,11 @@ void File_State(char input[])
 	}
 	else if (_tcscmp(input, "Save") == 0)
 	{
+		if (IF_HAS_SAVE == 0)
+		{
+			MessageBox(NULL, _T("请输入你要保存的文件名"), _T("提示"), MB_OK);
+			File_Name = KeyBoard_Name(screem.File_Pos);
+		}
 		Save(File_Name);
 		If_Change = 0;
 		IF_HAS_SAVE = 1;
@@ -85,6 +97,7 @@ void File_State(char input[])
 void Close_File()
 {
 	int result;
+	FILE_STATE = 0;
 	if (If_Change == 1)
 	{
 		if (IF_HAS_SAVE == 1)
@@ -116,5 +129,11 @@ void Close_File()
 	}
 	If_Change = 0;
 	IF_HAS_SAVE = 0;
+	HAS_FILE_OPEN_NEW = 0;
+
+	Edit_Close();
+	Edit_Update(0);
+	screem.Cursor_Pos = screem.File_Pos;
+	SetConsoleCursorPosition(hOut, screem.Cursor_Pos);
 }
 
