@@ -129,3 +129,15 @@ void BeiJing(void)
 {
 	_tsystem(_T("cls"));//system(“cls” )用于清除窗口中的文字
 }
+void Clear_Inform()
+{
+	COORD clear_inform = screem.Inform_Pos;
+	//int i, j;
+	for (clear_inform.Y = screem.Inform_Pos.Y; clear_inform.Y < BOTTOM - 1; clear_inform.Y++)
+	{
+		for (clear_inform.X = screem.Inform_Pos.X; clear_inform.X < RIGHT - 2; clear_inform.X++)
+		{
+			WriteConsoleOutputCharacter(hOut, " ", 1, clear_inform, &num_written);
+		}
+	}
+}

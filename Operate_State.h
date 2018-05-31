@@ -12,5 +12,7 @@ extern void Operate_State(char *input);
 extern bool Search(const char *target);
 extern void Find_(char *str, const char *target, int Position[][MAX_COL + 1], int row);
 extern void Get_Nextval(int *nextval, const char *target);
-extern int Index_KMP(char *str, const char *target, int pos, int nextval[]);
+extern int Index_KMP(char *str, const char *target, int pos, int nextval[],int col_length);
 extern int Position[MAX_LINE + 1][MAX_COL + 1];
+extern bool Search_Replace(const char *target);
+extern void RePlace(int len_old);

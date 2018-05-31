@@ -11,7 +11,7 @@ void Update_Move(int direct)
 		if (Update_Pos.X <= EDIT_WIDTH) {
 			//处于非第一行，前width字符
 			if (Update_Pos.Y > 1) {
-				Update_Pos.X = (Get_Col(Update_Pos.Y - 1) - 1) % EDIT_WIDTH + 1;
+				Update_Pos.X = Get_Col(Update_Pos.Y - 1) - (Get_Col(Update_Pos.Y - 1) - 1) % EDIT_WIDTH + 1;
 				Update_Pos.Y--;
 				return;
 			}
@@ -23,11 +23,16 @@ void Update_Move(int direct)
 	}
 	else if (direct == DOWN) {
 		ret = Line_Check(Update_Pos.Y, Update_Pos.X + EDIT_WIDTH);
-		if (ret == 2|| ret < 0) {
+		if (ret == 2) {
+			ret = Line_Check(Update_Pos.Y + 1, Update_Pos.X + EDIT_WIDTH);
+			if (ret == 1)
+				return;
 			Update_Pos.X = 1;
 			Update_Pos.Y++;
 		}
-		else {
+		else if (ret == 1)
+			return;
+		else if (ret == 0) {
 			Update_Pos.X = Update_Pos.X + EDIT_WIDTH;
 		}
 	}

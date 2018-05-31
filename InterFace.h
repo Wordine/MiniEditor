@@ -8,3 +8,4 @@ extern void DrawBox(SMALL_RECT rc);
 extern void Navigation();
 extern void Get_Screen();
 extern void Navigation_Search();
+extern void Clear_Inform();
