@@ -1,3 +1,3 @@
 #pragma once
 extern void Operate_Edit();
-bool Operate_Error(char * input);
+extern bool Operate_Error(char * input);
