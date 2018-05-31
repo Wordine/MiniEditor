@@ -16,7 +16,7 @@ bool Edit_Initial()
 	cursorPos.Y = 1;
 	Scrm.Cursor_Pos.X = Scrm.Edit_Pos.X + cursorPos.X - 1;
 	Scrm.Cursor_Pos.Y = Scrm.Edit_Pos.Y + cursorPos.Y - 1;
-	SetConsoleCursorPosition(hStdout, Scrm.Cursor_Pos);
+	//SetConsoleCursorPosition(hStdout, Scrm.Cursor_Pos);
 //	Edit_Log.addLog("a new file open");
 	return true;
 }

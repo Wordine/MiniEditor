@@ -236,11 +236,13 @@ int Edit_Insert()
 	else if (word == 8) {
 		if (Edit_status == EDIT_MODE)
 			continue;
+		if (File_Pos.X == 1 && File_Pos.Y == 1)
+			continue;
 		Edit_Log.addLog("Backspace");
 		if (File_Pos.X == 1) {
 			Cursor_Move(LEFT);
-			if (File_Pos.Y != 1)
-				Data_Delete(File_Pos.Y + 1, 0);
+			Data_Delete(File_Pos.Y + 1, 0);
+			If_Change = 1;
 		}
 		else {
 			Cursor_Move(LEFT);
