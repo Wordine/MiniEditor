@@ -15,6 +15,7 @@ void File_State(char input[])
 	ChaChu(input, screem.File_Pos);
 	if (_tcscmp(input, "New") == 0)
 	{
+		IF_HAS_SAVE = 0;
 		Mini.File_Open();
 		FILE_STATE = OPEN;
 	}
@@ -28,6 +29,7 @@ void File_State(char input[])
 			switch (result)
 			{
 			case IDYES:
+				IF_HAS_SAVE = 0;
 				Mini.File_Open();
 				FILE_STATE = OPEN;
 				break;
@@ -39,6 +41,7 @@ void File_State(char input[])
 		{
 			Open(File_Name);
 			FILE_STATE = OPEN;
+			IF_HAS_SAVE = 1;
 		}
 	}
 	else if (_tcscmp(input, "Close") == 0)
@@ -47,12 +50,15 @@ void File_State(char input[])
 		Close_File();
 		Edit_Close();
 		Edit_Update(0);
+		screem.Cursor_Pos = screem.File_Pos;
+		SetConsoleCursorPosition(hOut, screem.Cursor_Pos);
 	}
 	else if (_tcscmp(input, "ReName") == 0)
 	{
 		remove(File_Name);
 		File_Name = KeyBoard_Name(screem.File_Pos);
 		Save(File_Name);
+		IF_HAS_SAVE = 1;
 		FILE_STATE = OPEN;
 	}
 	else if (_tcscmp(input, "Save") == 0)
