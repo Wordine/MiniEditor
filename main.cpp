@@ -27,9 +27,10 @@ int main()
 			break;
 		case EDIT:
 			File_Status = Edit_Insert();
+			break;
 		case OPERATE:
 			Operate_Edit();
-			File_Status = INFORM;
+			File_Status = EDIT;
 			break;
 		}
 	}

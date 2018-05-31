@@ -72,7 +72,7 @@ void Inform(int)
 	COORD temp = Scrm.Inform_Pos;
 	SetConsoleCursorPosition(hStdout, temp);
 	for (int i = 0; i < INFORM_LONG; i++) {
-		for (int j = 0; i < INFORM_WIDTH; i++)
+		for (int j = 0; i < INFORM_WIDTH; j++)
 			cout << " ";
 		temp.X = Scrm.Edit_Pos.X;
 		SetConsoleCursorPosition(hStdout, temp);

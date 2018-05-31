@@ -7,14 +7,14 @@ NetDataLog::NetDataLog(string strDir, string filename, int maxsize, int filecoun
 	m_FileCount = filecount;
 	m_timeFormat = timeFormat;
 
-	//ï¿½Ğ¶ï¿½ï¿½ï¿½Ö¾Ä¿Â¼ï¿½Ç·ï¿½ï¿½ï¿½ï¿½  
+	//ÅĞ¶ÏÈÕÖ¾Ä¿Â¼ÊÇ·ñ´æÔÚ  
 	if (!checkFolderExist(m_strDir.c_str()))
 	{
 		_mkdir(m_strDir.c_str());
 	}
 	m_outputFile = new fstream;
 	string strname = m_LogFileName + ".txt";
-	m_outputFile->open(strname, ofstream::out | ofstream::app); //ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½  
+	m_outputFile->open(strname, ofstream::out | ofstream::app); //´ò¿ªÈÕÖ¾ÎÄ¼ş  
 	bool b = m_outputFile->is_open();
 
 
@@ -25,10 +25,10 @@ NetDataLog::~NetDataLog()
 		delete m_outputFile;
 }
 //********************************  
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NetDataLog::checkFolderExist  
-//ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½Ç·ï¿½ï¿½ï¿½ï¿½  
-//ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½strPath Ä¿Â¼ï¿½ï¿½  
-//ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½  
+//º¯ÊıÃû£ºNetDataLog::checkFolderExist  
+//Ãè  Êö£º²âÊÔÄ¿Â¼ÊÇ·ñ´æÔÚ  
+//²Î  Êı£ºstrPath Ä¿Â¼Ãû  
+//·µ»ØÖµ£º´æÔÚ·µ»ØÕæ  
 //*************************************  
 bool NetDataLog::checkFolderExist(const string  & strPath)
 {
@@ -38,10 +38,10 @@ bool NetDataLog::checkFolderExist(const string  & strPath)
 		return false;
 }
 //********************************  
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NetDataLog::addLog  
-//ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½Ï¢  
-//ï¿½ï¿½  ï¿½ï¿½ log Îªï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½  
-//ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½void  
+//º¯ÊıÃû£ºNetDataLog::addLog  
+//Ãè  Êö£ºÏòÎÄ¼şÖĞÌí¼ÓÈÕÖ¾ĞÅÏ¢  
+//²Î  Êı log ÎªĞÅÏ¢ÄÚÈİ  
+//·µ»ØÖµ£ºvoid  
 //*************************************  
 void NetDataLog::addLog(string log)
 {
@@ -49,14 +49,14 @@ void NetDataLog::addLog(string log)
 		*m_outputFile << log << endl;
 	else
 		*m_outputFile << log << endl;
-	//ï¿½Ğ¶ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ğ¡  
+	//ÅĞ¶ÏÎÄ¼ş´óĞ¡  
 	fileSizeLimit();
 }
 //********************************  
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NetDataLog::fileSizeLimit  
-//ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ğ¡ï¿½Ç·ï¿½ïµ½ï¿½ï¿½ï¿½Öµ  
-//ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
-//ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½void  
+//º¯ÊıÃû£ºNetDataLog::fileSizeLimit  
+//Ãè  Êö£ºÅĞ¶ÏÎÄ¼ş´óĞ¡ÊÇ·ñ´ïµ½×î´óÖµ  
+//²Î  Êı£ºÎŞ  
+//·µ»ØÖµ£ºvoid  
 //*************************************  
 void NetDataLog::fileSizeLimit()
 {
@@ -66,66 +66,71 @@ void NetDataLog::fileSizeLimit()
 
 }
 //********************************  
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NetDataLog::fileOffset  
-//ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Æ«ï¿½ï¿½  
-//ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
-//ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½void  
+//º¯ÊıÃû£ºNetDataLog::fileOffset  
+//Ãè  Êö£ºÊµÏÖÎÄ¼şÃûµÄÆ«ÒÆ  
+//²Î  Êı£ºÎŞ  
+//·µ»ØÖµ£ºvoid  
 //*************************************  
 void NetDataLog::fileOffset()
 {
-	m_outputFile->close();   //ï¿½Ø±Õµï¿½Ç°ï¿½Ä¼ï¿½  
+	m_outputFile->close();   //¹Ø±Õµ±Ç°ÎÄ¼ş  
 	char filename[100] = { 0 };
 	char newfilename[100] = { 0 };
 	for (int i = m_FileCount - 1; i > 0; i--)
 	{
 		memset(filename, 0, 100);
 		sprintf_s(filename, "%s%d.txt", m_LogFileName.data(), i);
-		if (checkFolderExist(filename))  //ï¿½ï¿½ï¿½ï¿½  
+		if (checkFolderExist(filename))  //´æÔÚ  
 		{
 			if (i == m_FileCount - 1)
+			{
+				remove(filename);//É¾³ıÎÄ¼ş  
 				continue;
 			}
-			//ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ«ï¿½ï¿½  
+			//ÎÄ¼şÃûĞòºÅÏòºóÆ«ÒÆ  
+			memset(newfilename, 0, 100);
+			sprintf_s(newfilename, "%s%d.txt", m_LogFileName.data(), i + 1);
+			rename(filename, newfilename);
 		}
 	}
 	memset(filename, 0, 100);
 	sprintf_s(filename, "%s.txt", m_LogFileName.data());
 	sprintf_s(newfilename, "%s%d.txt", m_LogFileName.data(), 1);
 	rename(filename, newfilename);
-	m_outputFile->open(filename, ofstream::out | ofstream::app);    //ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½  
+	m_outputFile->open(filename, ofstream::out | ofstream::app);    //´ò¿ªÈÕÖ¾ÎÄ¼ş  
 }
 
 //********************************  
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NetDataLog::getCurrentLogFileSize  
-//ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ãµ±Ç°ï¿½Õ¼ï¿½ï¿½Ä¼ï¿½ï¿½Ä´ï¿½Ğ¡  
-//ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
-//ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½KBï¿½ï¿½  
+//º¯ÊıÃû£ºNetDataLog::getCurrentLogFileSize  
+//Ãè  Êö£º¼ÆËãµ±Ç°ÈÕ¼ÇÎÄ¼şµÄ´óĞ¡  
+//²Î  Êı£ºÎŞ  
+//·µ»ØÖµ£ºÎÄ¼ş´óĞ¡£¨KB£©  
 //*************************************  
 int NetDataLog::getCurrentLogFileSize()
 {
-	long long filepos = m_outputFile->tellp(); //ï¿½ï¿½ï¿½æµ±Ç°ï¿½Ä¼ï¿½Î»ï¿½ï¿½  
-	m_outputFile->seekp(0, ios_base::end);            //ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Î²  
+	long long filepos = m_outputFile->tellp(); //±£´æµ±Ç°ÎÄ¼şÎ»ÖÃ  
+	m_outputFile->seekp(0, ios_base::end);            //ÒÆ¶¯µ½ÎÄ¼şÎ²  
 	long long filesize = m_outputFile->tellp();
-	m_outputFile->seekp(filepos, ios_base::beg);      //ï¿½Ö¸ï¿½ï¿½Ä¼ï¿½Î»ï¿½ï¿½  
+	m_outputFile->seekp(filepos, ios_base::beg);      //»Ö¸´ÎÄ¼şÎ»ÖÃ  
 	return filesize / 1024;
 
 }
-//ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½  
+//»ñÈ¡ÎÄ¼şÃû  
 string NetDataLog::getLogFileName()
 {
 	return m_LogFileName + ".txt";
 }
-//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½  
+//ÉèÖÃÎÄ¼ş¸öÊı  
 void NetDataLog::setFileCount(int count)
 {
 	m_FileCount = count;
 }
-//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½  
+//ÉèÖÃÎÄ¼şÃû  
 void NetDataLog::setFileName(string filename)
 {
 	m_LogFileName = m_strDir + string("\\") + filename;
 }
-//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ğ¡  
+//ÉèÖÃÎÄ¼ş´óĞ¡  
 void NetDataLog::setMaxFileSize(int maxsize)
 {
 	m_MaxFileSize = maxsize;

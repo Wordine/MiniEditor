@@ -237,9 +237,16 @@ int Edit_Insert()
 		if (Edit_status == EDIT_MODE)
 			continue;
 		Edit_Log.addLog("Backspace");
-		Cursor_Move(LEFT);
-		Data_Delete(File_Pos.Y, File_Pos.X);
-		If_Change = 1;
+		if (File_Pos.X == 1) {
+			Cursor_Move(LEFT);
+			if (File_Pos.Y != 1)
+				Data_Delete(File_Pos.Y + 1, 0);
+		}
+		else {
+			Cursor_Move(LEFT);
+			Data_Delete(File_Pos.Y, File_Pos.X);
+			If_Change = 1;
+		}
 		Edit_Update();
 		Inform();
 	}

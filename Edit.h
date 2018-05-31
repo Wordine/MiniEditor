@@ -24,6 +24,7 @@ extern void Edit_Update();
 extern void Edit_Update(int y, int x, int len);
 extern void Edit_Update(int y);
 extern bool Edit_Initial();
+extern bool Edit_Turn();
 extern void Inform(string message);
 extern void Inform();
 

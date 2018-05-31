@@ -35,9 +35,9 @@ bool Edit_Turn()
 	}
 		
 	//set cursor pos
-	cursorPos.X = Scrm.Cursor_Pos.X - Scrm.Edit_Pos.X + 1;
-	cursorPos.Y = Scrm.Cursor_Pos.Y - Scrm.Edit_Pos.Y + 1;
-	SetConsoleCursorPosition(hStdout, cursorPos);
+	Scrm.Cursor_Pos.X = Scrm.Edit_Pos.X + cursorPos.X - 1;
+	Scrm.Cursor_Pos.Y = Scrm.Edit_Pos.Y + cursorPos.Y - 1;
+	SetConsoleCursorPosition(hStdout, Scrm.Cursor_Pos);
 //	Edit_Log.addLog("Edit turned");
 }
 
