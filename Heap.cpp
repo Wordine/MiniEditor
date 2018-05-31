@@ -222,7 +222,9 @@ void Database::Data_Insert(unsigned int row, unsigned int col, const char c)
 	if (c == '\t')
 	{
 		int zero = 8 - (col % 8);
-		char *temp = new char(zero + 2);
+		if (zero == 8)
+			zero = 0;
+		char *temp = new char[zero + 2]();
 		temp[zero] = '\t';
 		Data_Replace(row, col, temp, 0, zero + 1);
 		free(temp);
@@ -275,6 +277,7 @@ void Database::Data_Delete(unsigned int row, unsigned int col)
 		vector<int>::iterator it2 = line_num.begin() + row;
 		line_num.erase(it2);
 		line_num[0]--;
+		free(temp);
 	}
 	else
 	{
