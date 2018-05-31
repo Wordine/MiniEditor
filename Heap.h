@@ -15,7 +15,7 @@ public:
 	Database();
 	~Database();
 	void File_Open();
-	void File_Open(const char* filename);
+	void File_Open(const char*);
 	int Get_Row();
 	int Get_Col(int);
 	char* Get_Line(int);
