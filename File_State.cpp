@@ -6,7 +6,8 @@
 #include"KeyBoard.h"
 
 #include "Edit_Intial.h"
-
+extern void Clear_Inform();
+extern void Edit_Update(int);
 char *File_Name = nullptr;
 int FILE_STATE = 0;
 void File_State(char input[])
@@ -42,21 +43,24 @@ void File_State(char input[])
 	}
 	else if (_tcscmp(input, "Close") == 0)
 	{
+		FILE_STATE = 0;
 		Close_File();
 		Edit_Close();
+		Edit_Update(0);
 	}
 	else if (_tcscmp(input, "ReName") == 0)
 	{
 		remove(File_Name);
 		File_Name = KeyBoard_Name(screem.File_Pos);
 		Save(File_Name);
+		FILE_STATE = OPEN;
 	}
 	else if (_tcscmp(input, "Save") == 0)
 	{
-		File_Name = KeyBoard_Name(screem.File_Pos);
 		Save(File_Name);
 		If_Change = 0;
 		IF_HAS_SAVE = 1;
+		FILE_STATE = OPEN;
 	}
 	else if (_tcscmp(input, "Save_As") == 0)
 	{
@@ -64,9 +68,11 @@ void File_State(char input[])
 		Save(File_Name);
 		If_Change = 0;
 		IF_HAS_SAVE = 1;
+		FILE_STATE = OPEN;
 	}
 	else if (_tcscmp(input, "Quit") == 0)
 	{
+		FILE_STATE = 0;
 		exit(0);
 	}
 }
