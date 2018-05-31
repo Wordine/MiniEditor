@@ -241,11 +241,16 @@ void Database::Data_Insert(unsigned int row, unsigned int col, const char c)
 
 void Database::Data_Delete(unsigned int row, unsigned int col)
 {
-	if (col > line_num[row] - 1)
+	if (row == line_num[0])
+	{
+		if (col > line_num[row])
+			return;
+	}
+	else if (col > line_num[row] - 1)
 		return;
 	if (col == 0)
 	{
-		char *temp = Get_Line(row);
+		char *temp = Get_Line(row) + 1;
 		Data_Replace(row - 1, line_num[row - 1], temp, 1, line_num[row]);
 		vector< vector<char*> >::iterator it1 = data.begin() + row;
 		data.erase(it1);
