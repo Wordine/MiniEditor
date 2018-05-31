@@ -7,6 +7,15 @@ Database::Database()
 
 void Database::File_Open()
 {
+	for (int i = 1; i < data.size(); i++)	//初始化
+	{
+		for (int j = 1; j < data[i].size(); j++)
+			free(data[i][j]);
+		data[i].clear();
+	}
+	data.clear();
+	line_num.clear();
+
 	vector <char*> _data;
 	data.push_back(_data);
 	data.push_back(_data);
@@ -19,6 +28,15 @@ void Database::File_Open()
 void Database::File_Open(const char* filename)
 //打开文件并写入结构中
 {
+	for (int i = 1; i < data.size(); i++)	//初始化
+	{
+		for (int j = 1; j < data[i].size(); j++)
+			free(data[i][j]);
+		data[i].clear();
+	}
+	data.clear();
+	line_num.clear();
+
 	ifstream file(filename);
 	vector <char*> _data;
 	data.push_back(_data);
