@@ -169,13 +169,20 @@ void Database::Data_Replace(unsigned int row, unsigned int col, const char* new_
 				temp[i] = data[row][(col + old_len + i - 1) / 100 + 1][(col + old_len + i - 1) % 100 + 1];
 		}
 
-		if (intercept > 0 && line_num[row] % 100 <= intercept + t)
+		if (intercept > 0 && line_num[row] % 100 <= intercept + t && line_num[row] % 100 != 0)
 		{
-			data[row].pop_back();
+			for (i = 0; i <= ((intercept + t) - line_num[row] % 100) / 100; i++)
+				data[row].pop_back();
 		}
-		else if(intercept  < 0 && (100 - (line_num[row] + 1) % 100 - 1) < -intercept - t || (100 - line_num[row] % 100) < -intercept - t)
+		else if (intercept < 0 && line_num[row] % 100 == 0 && 0 < -intercept - t)
 		{
-			data[row].push_back(new char[102]());
+			for (i = 0; i <= (-intercept - t) / 100; i++)
+				data[row].push_back(new char[102]());
+		}
+		else if(intercept  < 0 && (100 - line_num[row] % 100) < -intercept - t)
+		{
+			for (i = 0; i <= ((-intercept - t) - (100 - line_num[row] % 100)) / 100; i++)
+				data[row].push_back(new char[102]());
 		}
 		
 		line_num[row] = line_num[row] - intercept - t;
@@ -234,7 +241,7 @@ void Database::Data_Insert(unsigned int row, unsigned int col, const char c)
 
 void Database::Data_Delete(unsigned int row, unsigned int col)
 {
-	if (col >= line_num[row] - 1)
+	if (col > line_num[row] - 1)
 		return;
 	if (col == 0)
 	{
