@@ -10,7 +10,7 @@ void Database::File_Open()
 	for (int i = 1; i < data.size(); i++)	//初始化
 	{
 		for (int j = 1; j < data[i].size(); j++)
-			free(data[i][j]);
+			delete[] data[i][j];
 		data[i].clear();
 	}
 	data.clear();
@@ -31,7 +31,7 @@ void Database::File_Open(const char* filename)
 	for (int i = 1; i < data.size(); i++)	//初始化
 	{
 		for (int j = 1; j < data[i].size(); j++)
-			free(data[i][j]);
+			delete[] data[i][j];
 		data[i].clear();
 	}
 	data.clear();
@@ -214,7 +214,7 @@ void Database::Data_Replace(unsigned int row, unsigned int col, const char* new_
 			data[row][(col + new_len + i - 1) / 100 + 1][(col + new_len + i - 1) % 100 + 1] = temp[i];
 		}
 	}
-	free(temp);
+	delete[] temp;
 }
 
 void Database::Data_Insert(unsigned int row, unsigned int col, const char c)
@@ -227,7 +227,7 @@ void Database::Data_Insert(unsigned int row, unsigned int col, const char c)
 		char *temp = new char[zero + 2]();
 		temp[zero] = '\t';
 		Data_Replace(row, col, temp, 0, zero + 1);
-		free(temp);
+		delete[] temp;
 	}
 	else if (c == '\n')
 	{
@@ -248,7 +248,7 @@ void Database::Data_Insert(unsigned int row, unsigned int col, const char c)
 	//	data[row + 1][1][1] = '\n';
 	//	line_num[row + 1] = 1;
 		Data_Replace(row + 1, 1, temp, 0, len);
-		free(temp);
+		delete[] temp;
 	}
 	else
 	{
@@ -277,7 +277,7 @@ void Database::Data_Delete(unsigned int row, unsigned int col)
 		vector<int>::iterator it2 = line_num.begin() + row;
 		line_num.erase(it2);
 		line_num[0]--;
-		free(temp);
+		delete[] temp;
 	}
 	else
 	{
