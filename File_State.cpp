@@ -13,6 +13,8 @@ int FILE_STATE = 0;
 static int HAS_FILE_OPEN_NEW = 0;
 void File_State(char input[])
 {
+	string str_write;
+	COORD TiShi = screem.Inform_Pos;
 	ChaChu(input, screem.File_Pos);
 	if (_tcscmp(input, "New") == 0)
 	{
@@ -31,10 +33,13 @@ void File_State(char input[])
 		{
 			Close_File();
 		}
-		MessageBox(NULL, _T("请输入你要打开的文件名"), _T("提示"), MB_OK);
+		//MessageBox(NULL, _T("请输入你要打开的文件名"), _T("提示"), MB_OK);
+		str_write = "请输入你要打开的文件名";
+		WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
 		File_Name = KeyBoard_Name(screem.File_Pos);
 		if (_access(File_Name, 0) != 0)
 		{
+			Clear_Inform();
 			int result = MessageBox(NULL, _T("该文件不存在！你是否要新建该文件？"), _T("警告"), MB_YESNO);
 			switch (result)
 			{
@@ -63,16 +68,21 @@ void File_State(char input[])
 	else if (_tcscmp(input, "ReName") == 0)
 	{
 		remove(File_Name);
+		str_write = "重命名为";
+		WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
 		File_Name = KeyBoard_Name(screem.File_Pos);
 		Save(File_Name);
 		IF_HAS_SAVE = 1;
 		FILE_STATE = OPEN;
+
 	}
 	else if (_tcscmp(input, "Save") == 0)
 	{
 		if (IF_HAS_SAVE == 0)
 		{
-			MessageBox(NULL, _T("请输入你要保存的文件名"), _T("提示"), MB_OK);
+			//MessageBox(NULL, _T("请输入你要保存的文件名"), _T("提示"), MB_OK);
+			str_write = "请输入你要保存的文件名";
+			WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
 			File_Name = KeyBoard_Name(screem.File_Pos);
 		}
 		Save(File_Name);
@@ -82,6 +92,8 @@ void File_State(char input[])
 	}
 	else if (_tcscmp(input, "Save_As") == 0)
 	{
+		str_write = "另存为：";
+		WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
 		File_Name = KeyBoard_Name(screem.File_Pos);
 		Save(File_Name);
 		If_Change = 0;
@@ -91,8 +103,11 @@ void File_State(char input[])
 	else if (_tcscmp(input, "Quit") == 0)
 	{
 		FILE_STATE = 0;
+		str_write = "程序已退出";
+		WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
 		exit(0);
 	}
+	Clear_Inform();
 }
 void Close_File()
 {

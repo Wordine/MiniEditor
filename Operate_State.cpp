@@ -17,11 +17,13 @@ void Operate_State(char *input)
 {
 	ChaChu(input, screem.Operate_Pos);
 	char *Source = nullptr, *Target = nullptr;
+	string str_write;
 	int i, len_old = 0;
 	if (_tcscmp(input, "Replace") == 0)
 	{
-
-		MessageBox(NULL, _T("请输入替换前的字符串"), _T("提示"), MB_OK);
+		str_write = "请输入替换前的字符串";
+		WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
+		//MessageBox(NULL, _T("请输入替换前的字符串"), _T("提示"), MB_OK);
 		Source = KeyBoard_Name(screem.Operate_Pos);
 		len_old = strlen(Source);
 		for (i = strlen(Source); i >= 0; i--)
@@ -38,8 +40,11 @@ void Operate_State(char *input)
 	if (_tcscmp(input, "Search") == 0)
 	{
 		Input_Status = SEARCH;
-		MessageBox(NULL, _T("请输入待查找的字符串"), _T("提示"), MB_OK);
+		str_write = "请输入待查找的字符串";
+		WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
+		//MessageBox(NULL, _T("请输入待查找的字符串"), _T("提示"), MB_OK);
 		Target = KeyBoard_Name(screem.Operate_Pos);
+		Clear_Inform();
 		for (i = strlen(Target); i >= 0; i--)
 		{
 			Target[i + 1] = Target[i];
@@ -47,6 +52,7 @@ void Operate_State(char *input)
 		Search(Target);
 		SetConsoleCursorPosition(hOut, screem.Operate_Pos);
 	}
+	Clear_Inform();
 }
 bool Search_Replace(const char *target)
 {
@@ -220,8 +226,13 @@ void RePlace(int len_old)
 	TCHAR ch = NULL;
 	char b[1];
 	char *Target = nullptr;
-	MessageBox(NULL, _T("请输入替换后的字符串"), _T("提示"), MB_OK);
+	Clear_Inform();
+	string str_write;
+	str_write = "请输入替换后的字符：";
+	WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
+	//MessageBox(NULL, _T("请输入替换后的字符串"), _T("提示"), MB_OK);
 	Target = KeyBoard_Name(screem.Operate_Pos);
+	Clear_Inform();
 	for (line = 1; line <= Count_Row; line++)
 	{
 		Count_Col = Get_Col(line);
@@ -252,12 +263,12 @@ void RePlace(int len_old)
 						else
 						{
 							ch = keyRec.Event.KeyEvent.uChar.AsciiChar;
-							while (ch != 'y'&&ch != 'n'&&(ch <= 127 && ch >= 32))
+							/*while (ch != 'y'&&ch != 'n'&&(ch <= 127 && ch >= 32))
 							{
 								MessageBox(NULL, _T("你的输入有误！请重新选择："), _T("警告"), MB_OK | MB_ICONEXCLAMATION);
 								ReadConsoleInput(hIn, &keyRec, 1, &res);
 								ch = keyRec.Event.KeyEvent.uChar.AsciiChar;
-							}
+							}*/
 							out_put.X = out_put.X + strlen(a) + 1;
 							b[0] = ch;
 							WriteConsoleOutputCharacter(hOut, b, 1, out_put, &num_written);
