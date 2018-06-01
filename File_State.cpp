@@ -11,6 +11,7 @@ extern void Edit_Update(int);
 static char *File_Name = nullptr;
 int FILE_STATE = 0;
 static int HAS_FILE_OPEN_NEW = 0;
+static string WenJianMing;
 void File_State(char input[])
 {
 	string str_write;
@@ -37,6 +38,7 @@ void File_State(char input[])
 		str_write = "请输入你要打开的文件名";
 		WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
 		File_Name = KeyBoard_Name(screem.File_Pos);
+		WenJianMing = File_Name;
 		if (_access(File_Name, 0) != 0)
 		{
 			Clear_Inform();
@@ -76,10 +78,11 @@ void File_State(char input[])
 	{
 		if (HAS_FILE_OPEN_NEW == 1)
 		{
-			remove(File_Name);
+			remove(WenJianMing.c_str());
 			str_write = "重命名为";
 			WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
 			File_Name = KeyBoard_Name(screem.File_Pos);
+			WenJianMing = File_Name;
 			Save(File_Name);
 			IF_HAS_SAVE = 1;
 			FILE_STATE = OPEN;
@@ -99,8 +102,9 @@ void File_State(char input[])
 				str_write = "请输入你要保存的文件名";
 				WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
 				File_Name = KeyBoard_Name(screem.File_Pos);
+				WenJianMing = File_Name;
 			}
-			Save(File_Name);
+			Save(WenJianMing.c_str());
 			If_Change = 0;
 			IF_HAS_SAVE = 1;
 			FILE_STATE = OPEN;
@@ -117,6 +121,7 @@ void File_State(char input[])
 			str_write = "另存为：";
 			WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
 			File_Name = KeyBoard_Name(screem.File_Pos);
+			WenJianMing = File_Name;
 			Save(File_Name);
 			If_Change = 0;
 			IF_HAS_SAVE = 1;

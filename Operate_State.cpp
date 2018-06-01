@@ -57,14 +57,12 @@ void Operate_State(char *input)
 bool Search_Replace(const char *target)
 {
 	int i, j;
-	int line, len, col;
+	int line, col;
 	//char receiver[MAX_COL];
 	char *text = nullptr;
 	int  Count_Row, Count_Col, Count_Find_Num = 0;
 	Count_Row = Get_Row();
-	char a[1];
-	COORD out_put = screem.Inform_Pos;
-
+	
 	for (i = 0; i <= MAX_LINE; i++)
 	{
 		for (j = 0; j <= MAX_COL; j++)
@@ -78,7 +76,6 @@ bool Search_Replace(const char *target)
 		text = Get_Line(line);
 		Find_(text, target, Position, line);
 
-		out_put.X = screem.Inform_Pos.X;
 		for (col = 1; col <= Count_Col; col++)
 		{
 			if (Position[line][col] > 0)
@@ -90,8 +87,6 @@ bool Search_Replace(const char *target)
 				break;
 			}
 		}
-
-		out_put.Y++;
 	}
 	if (Count_Find_Num == 0)
 	{
@@ -107,8 +102,7 @@ bool Search(const char *target)
 	//char receiver[MAX_COL];
 	char *text = nullptr;
 	int  Count_Row, Count_Col, Count_Find_Num = 0;
-	Count_Row = Get_Row();
-	char a[1];
+	Count_Row = Get_Row();;
 	COORD out_put = screem.Inform_Pos;
 
 	for (i = 0; i <= MAX_LINE; i++)
@@ -216,15 +210,11 @@ void RePlace(int len_old)
 {
 	int  Count_Row, Count_Col, line, col;
 	COORD out_put = screem.Inform_Pos;
-	out_put.X = screem.Inform_Pos.X + 1;
+	//out_put.X = screem.Inform_Pos.X + 1;
 	Count_Row = Get_Row();
-	char a[50] = "Do you want to replace the string?(y or n)?";
-	int flag = 1;
+	string a = "你确认要替换该字符串吗?(y/回车（是）,n（否）)?";
 	Input_Status = REPLACE;
-	INPUT_RECORD keyRec;
-	DWORD state = 0, res = 0;
-	TCHAR ch = NULL;
-	char b[1];
+	char b[1], sure_or_not;
 	char *Target = nullptr;
 	Clear_Inform();
 	string str_write;
@@ -233,58 +223,28 @@ void RePlace(int len_old)
 	//MessageBox(NULL, _T("请输入替换后的字符串"), _T("提示"), MB_OK);
 	Target = KeyBoard_Name(screem.Operate_Pos);
 	Clear_Inform();
+	WriteConsoleOutputCharacter(hOut, a.c_str(), a.length(), out_put, &num_written);
+	out_put.X = out_put.X + a.length() + 4;
+	int HAS_REPLAE = 0;
 	for (line = 1; line <= Count_Row; line++)
 	{
 		Count_Col = Get_Col(line);
+		HAS_REPLAE = 0;
 		for (col = 1; col <= Count_Col; col++)
 		{
 			if (Position[line][col] > 0)
 			{
-				WriteConsoleOutputCharacter(hOut, " ", 1, out_put, &num_written);
-				Edit_Update(line, Position[line][col], 9);
-				WriteConsoleOutputCharacter(hOut, a, strlen(a), out_put, &num_written);
-				WriteConsoleOutputCharacter(hOut, b, 1, out_put, &num_written);
-				ReadConsoleInput(hIn, &keyRec, 1, &res);
-				if (keyRec.EventType == KEY_EVENT)//如果当前事件是键盘事件
+				Edit_Update(line, Position[line][col] + HAS_REPLAE * (strlen(Target) - len_old), 9);
+				sure_or_not = getch();
+				if (sure_or_not == 'y')
 				{
-					//只在按下时判断，弹起式不判断
-					if (keyRec.Event.KeyEvent.bKeyDown)
-					{
-						//获取控制键的操作
-						if (state != keyRec.Event.KeyEvent.dwControlKeyState)
-						{
-							state = keyRec.Event.KeyEvent.dwControlKeyState;
-						}
-						if (VK_RETURN == keyRec.Event.KeyEvent.wVirtualKeyCode)
-						{
-							Data_Replace(line, Position[line][col], Target, len_old, strlen(Target));
-							out_put.X = out_put.X - strlen(a) - 1;
-						}
-						else
-						{
-							ch = keyRec.Event.KeyEvent.uChar.AsciiChar;
-							/*while (ch != 'y'&&ch != 'n'&&(ch <= 127 && ch >= 32))
-							{
-								MessageBox(NULL, _T("你的输入有误！请重新选择："), _T("警告"), MB_OK | MB_ICONEXCLAMATION);
-								ReadConsoleInput(hIn, &keyRec, 1, &res);
-								ch = keyRec.Event.KeyEvent.uChar.AsciiChar;
-							}*/
-							out_put.X = out_put.X + strlen(a) + 1;
-							b[0] = ch;
-							WriteConsoleOutputCharacter(hOut, b, 1, out_put, &num_written);
-							if (ch == 'y')
-							{
-								Data_Replace(line, Position[line][col], Target, len_old, strlen(Target));
-								out_put.X = out_put.X - strlen(a) - 1;
-							}
-							else if (ch == 'n')
-							{
-								out_put.X = out_put.X - strlen(a) - 1;
-								continue;
-							}
-						}
-					}
+					Data_Replace(line, Position[line][col] + HAS_REPLAE * (strlen(Target) - len_old), Target, len_old, strlen(Target));
+					HAS_REPLAE++;
 				}
+				else if (sure_or_not == 'n');
+				b[0] = sure_or_not;
+				WriteConsoleOutputCharacter(hOut, " ", 1, out_put, &num_written);
+				WriteConsoleOutputCharacter(hOut, b, 1, out_put, &num_written);
 			}
 		}
 	}
