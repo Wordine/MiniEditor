@@ -63,42 +63,69 @@ void File_State(char input[])
 	}
 	else if (_tcscmp(input, "Close") == 0)
 	{
-		Close_File();
+		if (HAS_FILE_OPEN_NEW == 1)
+		{
+			Close_File();
+		}
+		else
+		{
+			MessageBox(NULL, _T("当前没有打开或新建的文本，不能进行操作！"), _T("警告"), MB_OK | MB_ICONEXCLAMATION);
+		}
 	}
 	else if (_tcscmp(input, "ReName") == 0)
 	{
-		remove(File_Name);
-		str_write = "重命名为";
-		WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
-		File_Name = KeyBoard_Name(screem.File_Pos);
-		Save(File_Name);
-		IF_HAS_SAVE = 1;
-		FILE_STATE = OPEN;
-
+		if (HAS_FILE_OPEN_NEW == 1)
+		{
+			remove(File_Name);
+			str_write = "重命名为";
+			WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
+			File_Name = KeyBoard_Name(screem.File_Pos);
+			Save(File_Name);
+			IF_HAS_SAVE = 1;
+			FILE_STATE = OPEN;
+		}
+		else
+		{
+			MessageBox(NULL, _T("当前没有打开或新建的文本，不能进行操作！"), _T("警告"), MB_OK | MB_ICONEXCLAMATION);
+		}
 	}
 	else if (_tcscmp(input, "Save") == 0)
 	{
-		if (IF_HAS_SAVE == 0)
+		if (HAS_FILE_OPEN_NEW == 1)
 		{
-			//MessageBox(NULL, _T("请输入你要保存的文件名"), _T("提示"), MB_OK);
-			str_write = "请输入你要保存的文件名";
-			WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
-			File_Name = KeyBoard_Name(screem.File_Pos);
+			if (IF_HAS_SAVE == 0)
+			{
+				//MessageBox(NULL, _T("请输入你要保存的文件名"), _T("提示"), MB_OK);
+				str_write = "请输入你要保存的文件名";
+				WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
+				File_Name = KeyBoard_Name(screem.File_Pos);
+			}
+			Save(File_Name);
+			If_Change = 0;
+			IF_HAS_SAVE = 1;
+			FILE_STATE = OPEN;
 		}
-		Save(File_Name);
-		If_Change = 0;
-		IF_HAS_SAVE = 1;
-		FILE_STATE = OPEN;
+		else
+		{
+			MessageBox(NULL, _T("当前没有打开或新建的文本，不能进行操作！"), _T("警告"), MB_OK | MB_ICONEXCLAMATION);
+		}
 	}
 	else if (_tcscmp(input, "Save_As") == 0)
 	{
-		str_write = "另存为：";
-		WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
-		File_Name = KeyBoard_Name(screem.File_Pos);
-		Save(File_Name);
-		If_Change = 0;
-		IF_HAS_SAVE = 1;
-		FILE_STATE = OPEN;
+		if (HAS_FILE_OPEN_NEW == 1)
+		{
+			str_write = "另存为：";
+			WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
+			File_Name = KeyBoard_Name(screem.File_Pos);
+			Save(File_Name);
+			If_Change = 0;
+			IF_HAS_SAVE = 1;
+			FILE_STATE = OPEN;
+		}
+		else
+		{
+			MessageBox(NULL, _T("当前没有打开或新建的文本，不能进行操作！"), _T("警告"), MB_OK | MB_ICONEXCLAMATION);
+		}
 	}
 	else if (_tcscmp(input, "Quit") == 0)
 	{
