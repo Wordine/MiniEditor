@@ -105,6 +105,7 @@ void File_State(char input[])
 		FILE_STATE = 0;
 		str_write = "³ÌÐòÒÑÍË³ö";
 		WriteConsoleOutputCharacter(hOut, str_write.c_str(), str_write.length(), screem.Inform_Pos, &num_written);
+		Close_File();
 		exit(0);
 	}
 	Clear_Inform();
